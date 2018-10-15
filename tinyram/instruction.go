@@ -72,7 +72,7 @@ type instructionToken struct {
 }
 
 // check whether a given instructionToken is valid or NOT.
-func validateToken(instr instruction) bool {
+func validateToken(instr instructionToken) bool {
 	// TODO: implement
 	return true
 }
