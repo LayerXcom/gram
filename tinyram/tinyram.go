@@ -40,3 +40,10 @@ func (r *tinyRAMInstance) Exec() bool {
 	// TODO: implement
 	return false
 }
+
+// get the pointer of tinyRAMInstance with a given ASM program.
+// TODO: pass tinyRAM parameters
+func GetTinyRAMInstance(asmPath string) (*tinyRAMInstance, error) {
+	// TODO: implement
+	return nil, nil
+}
