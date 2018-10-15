@@ -36,14 +36,36 @@ func (r *tinyRAMInstance) ExecCurrentInstruction() {
 }
 
 // execute whole program and return whether the calculation accepted of NOT.
-func (r *tinyRAMInstance) Exec() bool {
-	// TODO: implement
+// `t` parameter represents $T$, time bound, in the paper.
+func (r *tinyRAMInstance) Exec(t int) bool {
+	for i := 0; i < t; t++ {
+		if len(r.prog) <= t {
+			break
+		}
+		inst := r.prog[r.ram.Pc]
+
+		if inst.inst == instruction("RETURN") {
+			// TODO: check the target value of RETURN operation
+			return true
+		} else {
+			r.ExecCurrentInstruction()
+		}
+	}
 	return false
 }
 
 // get the pointer of tinyRAMInstance with a given ASM program.
-// TODO: pass tinyRAM parameters
-func GetTinyRAMInstance(asmPath string) (*tinyRAMInstance, error) {
-	// TODO: implement
-	return nil, nil
+func GetTinyRAMInstance(asmPath string, wordSize, numRegister int64) (*tinyRAMInstance, error) {
+	ps, err := parseRawAsm(asmPath)
+	if err != nil {
+		return nil, err
+	}
+	tr := tinyRAM{
+		WordSize:wordSize,
+		NumRegister: numRegister,
+	}
+	return &tinyRAMInstance{
+		ram: tr,
+		prog: ps,
+	}, nil
 }
