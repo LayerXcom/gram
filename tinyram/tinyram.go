@@ -23,27 +23,29 @@ type tinyRAM struct {
 	// AuxiliaryInput ... represents auxiliary input of the computation
 	// each word should be $WordSize$-bits
 	AuxiliaryInput []int64
-}
 
-type tinyRAMInstance struct {
-	ram  tinyRAM
-	prog program
+	// Prog ... READ-ONLY program
+	Prog  program
+
+	// represents the correctness of the computation
+	// and is set to be false by default.
+	Accept  bool
 }
 
 // execute current instruction pointed by the tinyRAM
-func (r *tinyRAMInstance) ExecCurrentInstruction() {
+func (r *tinyRAM) ExecCurrentInstruction() {
 	// TODO: implement
 }
 
 // execute whole program and return whether the calculation accepted of NOT.
-func (r *tinyRAMInstance) Exec() bool {
+func (r *tinyRAM) Exec() bool {
 	// TODO: implement
 	return false
 }
 
 // get the pointer of tinyRAMInstance with a given ASM program.
 // TODO: pass tinyRAM parameters
-func GetTinyRAMInstance(asmPath string) (*tinyRAMInstance, error) {
+func GetTinyRAMInstance(asmPath string) (*tinyRAM, error) {
 	// TODO: implement
 	return nil, nil
 }
