@@ -71,12 +71,6 @@ type instructionToken struct {
 	r3   int64
 }
 
-// check whether a given instructionToken is valid or NOT.
-func validateToken(instr instruction) bool {
-	// TODO: implement
-	return true
-}
-
 // TODO: implement the behavior of all instructions
 func andOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 	tRAM.Register[r1] = tRAM.Register[r2] & r3
