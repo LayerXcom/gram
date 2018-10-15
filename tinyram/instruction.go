@@ -34,6 +34,36 @@ const (
 	ANSWER instruction = "ANSWER"
 )
 
+var instructionToOperation = map[instruction]func(tRam *tinyRAM, r1, r2, r3, int64) {
+	AND: addOperation,
+	OR: orOperation,     
+	XOR: xorOperation,    
+	NOT: notOperation,    
+	ADD: addOperatiopn,    
+	SUB: subOperation,    
+	MULL: mullOperation,   
+	UMULH: umulhOperation,  
+	SMULH: smulhOperation,  
+	UDIV: udivOperation,   
+	UMOD: umodOperation,   
+	SHL: shlOperation,    
+	SHR: shrOperation,    
+	CMPE: cmpeOperation,   
+	CMPA: cmpaOperation,   
+	CMPAE: cmpaeOperation,  
+	CMPG: cmpgOperation,   
+	CMPGE: cmpgeOperation,  
+	MOV: movOperation,    
+	CMOV: cmovOperation,   
+	JMP: jmpOperation,    
+	CJMP: cjmpOperation,   
+	CNJMP: cnjmpOperation,  
+	STORE: storeOperation,  
+	LOAD: loadOperation,   
+	READ: readOperation,   
+	ANSWER: answerOperation,
+}
+
 type instructionToken struct {
 	inst instruction
 	r1   int64
