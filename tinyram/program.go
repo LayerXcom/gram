@@ -14,7 +14,7 @@ type program []instructionToken
 func parseRawAsm(path string) (program, error) {
 	var ret program
 
-	file, err := os.Open("path")
+	file, err := os.Open(path)
 	if err != nil {
 		panic(fmt.Sprintf("failed to parse Asm: %v", err))
 	}
