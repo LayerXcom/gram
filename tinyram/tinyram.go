@@ -1,5 +1,7 @@
 package tinyram
 
+import "fmt"
+
 type tinyRAM struct {
 	WordSize      int64
 	NumRegister   int64
@@ -34,18 +36,40 @@ type tinyRAM struct {
 
 // execute current instruction pointed by the tinyRAM
 func (r *tinyRAM) ExecCurrentInstruction() {
-	// TODO: implement
+	inst := r.Prog[r.Pc]
+	op, ok := instructionToOperation[inst.inst]
+	if !ok {
+		panic(fmt.Sprintf("operation not defined for %s", inst.inst))
+	}
+	// exec operation on tinyRAM
+	op(r, inst.r1, inst.r2, inst.r3)
 }
 
 // execute whole program and return whether the calculation accepted of NOT.
-func (r *tinyRAM) Exec() bool {
-	// TODO: implement
-	return false
+// `t` parameter represents $T$, time bound, in the paper.
+func (r *tinyRAM) Exec(t int) bool {
+	for i := 0; i < t; t++ {
+
+		// prevent out of range panic
+		if len(r.Prog) <= i {
+			break
+		}
+
+		r.ExecCurrentInstruction()
+	}
+	return r.Accept
 }
 
 // get the pointer of tinyRAMInstance with a given ASM program.
-// TODO: pass tinyRAM parameters
-func GetTinyRAMInstance(asmPath string) (*tinyRAM, error) {
-	// TODO: implement
-	return nil, nil
+func GetTinyRAMInstance(asmPath string, wordSize, numRegister int64) (*tinyRAM, error) {
+	ps, err := parseRawAsm(asmPath)
+	if err != nil {
+		return nil, err
+	}
+	tr := tinyRAM{
+		WordSize:    wordSize,
+		NumRegister: numRegister,
+		Prog: ps,
+	}
+	return &tr, nil
 }
