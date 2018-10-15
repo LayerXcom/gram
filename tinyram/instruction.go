@@ -35,7 +35,7 @@ const (
 )
 
 var instructionToOperation = map[instruction]func(tRam *tinyRAM, r1, r2, r3 int64){
-	AND:    addOperation,
+	AND:    andOperation,
 	OR:     orOperation,
 	XOR:    xorOperation,
 	NOT:    notOperation,
@@ -79,24 +79,39 @@ func validateToken(instr instruction) bool {
 
 // TODO: implement the behavior of all instructions
 func andOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-	tRAM.Register[r1] = tRAM.Register[r2] & tRAM.Register[r3]
-	if tRAM.WordSize == 0 {
+	tRAM.Register[r1] = tRAM.Register[r2] & r3
+	if tRAM.Register[r1] == 0 {
 		tRAM.ConditionFlag = true
-	} else if tRAM.WordSize != 0 {
+	} else if tRAM.Register[r1] != 0 {
 		tRAM.ConditionFlag = false
 	}
 }
 
 func orOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-
+	tRAM.Register[r1] = tRAM.Register[r2] | r3
+	if tRAM.Register[r1] == 0 {
+		tRAM.ConditionFlag = true
+	} else if tRAM.Register[r1] != 0 {
+		tRAM.ConditionFlag = false
+	}
 }
 
 func xorOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-
+	tRAM.Register[r1] = tRAM.Register[r2] ^ r3
+	if tRAM.Register[r1] == 0 {
+		tRAM.ConditionFlag = true
+	} else if tRAM.Register[r1] != 0 {
+		tRAM.ConditionFlag = false
+	}
 }
 
 func notOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-
+	result := tRAM.Register[r1] &^ r2
+	if result == 0 {
+		tRAM.ConditionFlag = true
+	} else if result != 0 {
+		tRAM.ConditionFlag = false
+	}
 }
 
 func addOperatiopn(tRAM *tinyRAM, r1, r2, r3 int64) {

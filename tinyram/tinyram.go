@@ -27,11 +27,11 @@ type tinyRAM struct {
 	AuxiliaryInput []int64
 
 	// Prog ... READ-ONLY program
-	Prog  program
+	Prog program
 
 	// represents the correctness of the computation
 	// and is set to be false by default.
-	Accept  bool
+	Accept bool
 }
 
 // execute current instruction pointed by the tinyRAM
@@ -69,7 +69,7 @@ func GetTinyRAMInstance(asmPath string, wordSize, numRegister int64) (*tinyRAM, 
 	tr := tinyRAM{
 		WordSize:    wordSize,
 		NumRegister: numRegister,
-		Prog: ps,
+		Prog:        ps,
 	}
 	return &tr, nil
 }
