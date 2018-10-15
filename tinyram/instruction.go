@@ -78,8 +78,13 @@ func validateToken(instr instruction) bool {
 }
 
 // TODO: implement the behavior of all instructions
-func addOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-
+func andOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+	tRAM.Register[r1] = tRAM.Register[r2] & tRAM.Register[r3]
+	if tRAM.WordSize == 0 {
+		tRAM.ConditionFlag = true
+	} else if tRAM.WordSize != 0 {
+		tRAM.ConditionFlag = false
+	}
 }
 
 func orOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
