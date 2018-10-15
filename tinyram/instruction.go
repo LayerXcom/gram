@@ -34,12 +34,12 @@ const (
 	ANSWER instruction = "ANSWER"
 )
 
-var instructionToOperation = map[instruction]func(tRam *tinyRAM, r1, r2, r3 int64){
-	AND:    addOperation,
+var instructionToOperation = map[instruction]func(tRam *tinyRAM, r1, r2, r3 Operand){
+	AND:    andOperation,
 	OR:     orOperation,
 	XOR:    xorOperation,
 	NOT:    notOperation,
-	ADD:    addOperatiopn,
+	ADD:    addOperation,
 	SUB:    subOperation,
 	MULL:   mullOperation,
 	UMULH:  umulhOperation,
@@ -66,9 +66,14 @@ var instructionToOperation = map[instruction]func(tRam *tinyRAM, r1, r2, r3 int6
 
 type instructionToken struct {
 	inst instruction
-	r1   int64
-	r2   int64
-	r3   int64
+	r1   Operand
+	r2   Operand
+	r3   Operand
+}
+
+type Operand struct {
+	isIndex bool
+	value   int64
 }
 
 // check whether a given instructionToken is valid or NOT.
@@ -78,8 +83,8 @@ func validateToken(instr instruction) bool {
 }
 
 // TODO: implement the behavior of all instructions
-func andOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-	tRAM.Register[r1] = tRAM.Register[r2] & tRAM.Register[r3]
+func andOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
+	tRAM.Register[r1.value] = tRAM.Register[r2.value] & tRAM.Register[r3.value]
 	if tRAM.WordSize == 0 {
 		tRAM.ConditionFlag = true
 	} else if tRAM.WordSize != 0 {
@@ -87,106 +92,106 @@ func andOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 	}
 }
 
-func orOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func orOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func xorOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func xorOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func notOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func notOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func addOperatiopn(tRAM *tinyRAM, r1, r2, r3 int64) {
+func addOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func subOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func subOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func mullOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func mullOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func umulhOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func umulhOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func smulhOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func smulhOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func udivOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func udivOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func umodOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func umodOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func shlOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func shlOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func shrOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func shrOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func cmpeOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func cmpeOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func cmpaOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func cmpaOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func cmpaeOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func cmpaeOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func cmpgOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func cmpgOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func cmpgeOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func cmpgeOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func movOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func movOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func cmovOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func cmovOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func jmpOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func jmpOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func cjmpOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func cjmpOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func cnjmpOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func cnjmpOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func storeOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func storeOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func loadOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func loadOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func readOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func readOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
 
-func answerOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func answerOperation(tRAM *tinyRAM, r1, r2, r3 Operand) {
 
 }
