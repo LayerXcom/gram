@@ -19,6 +19,8 @@ func TestParseRawAsm(t *testing.T) {
 			instructionToken{instruction("SUB"), 100, 2, 100},
 			instructionToken{instruction("READ"), 100, 200, 3},
 			instructionToken{instruction("STORE"), 10, 20, 30},
+			instructionToken{instruction("UMULH"), 10, 300, 0},
+			instructionToken{instruction("SHR"), 1, 0, 0},
 		},
 	}}
 
