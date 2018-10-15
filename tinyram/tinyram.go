@@ -1,5 +1,7 @@
 package tinyram
 
+import "fmt"
+
 type tinyRAM struct {
 	WordSize      int64
 	NumRegister   int64
@@ -23,49 +25,51 @@ type tinyRAM struct {
 	// AuxiliaryInput ... represents auxiliary input of the computation
 	// each word should be $WordSize$-bits
 	AuxiliaryInput []int64
-}
 
-type tinyRAMInstance struct {
-	ram  tinyRAM
-	prog program
+	// Prog ... READ-ONLY program
+	Prog  program
+
+	// represents the correctness of the computation
+	// and is set to be false by default.
+	Accept  bool
 }
 
 // execute current instruction pointed by the tinyRAM
-func (r *tinyRAMInstance) ExecCurrentInstruction() {
-	// TODO: implement
+func (r *tinyRAM) ExecCurrentInstruction() {
+	inst := r.Prog[r.Pc]
+	op, ok := instructionToOperation[inst.inst]
+	if !ok {
+		panic(fmt.Sprintf("operation not defined for %s", inst.inst))
+	}
+	// exec operation on tinyRAM
+	op(r, inst.r1, inst.r2, inst.r3)
 }
 
 // execute whole program and return whether the calculation accepted of NOT.
 // `t` parameter represents $T$, time bound, in the paper.
-func (r *tinyRAMInstance) Exec(t int) bool {
+func (r *tinyRAM) Exec(t int) bool {
 	for i := 0; i < t; t++ {
-		if len(r.prog) <= t {
+
+		// prevent out of range panic
+		if len(r.Prog) <= i {
 			break
 		}
-		inst := r.prog[r.ram.Pc]
 
-		if inst.inst == instruction("RETURN") {
-			// TODO: check the target value of RETURN operation
-			return true
-		} else {
-			r.ExecCurrentInstruction()
-		}
+		r.ExecCurrentInstruction()
 	}
-	return false
+	return r.Accept
 }
 
 // get the pointer of tinyRAMInstance with a given ASM program.
-func GetTinyRAMInstance(asmPath string, wordSize, numRegister int64) (*tinyRAMInstance, error) {
+func GetTinyRAMInstance(asmPath string, wordSize, numRegister int64) (*tinyRAM, error) {
 	ps, err := parseRawAsm(asmPath)
 	if err != nil {
 		return nil, err
 	}
 	tr := tinyRAM{
-		WordSize:wordSize,
+		WordSize:    wordSize,
 		NumRegister: numRegister,
+		Prog: ps,
 	}
-	return &tinyRAMInstance{
-		ram: tr,
-		prog: ps,
-	}, nil
+	return &tr, nil
 }
