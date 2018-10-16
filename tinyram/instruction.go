@@ -6,8 +6,6 @@ import (
 
 type instruction string
 
-// TODO: list all the instruction used by TinyRAM
-
 const (
 	AND    instruction = "AND"
 	OR     instruction = "OR"
