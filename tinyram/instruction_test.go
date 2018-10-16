@@ -1,8 +1,7 @@
 package tinyram
 
 import (
-	"fmt"
-	"math"
+	"fmt"	
 	"testing"
 
 	"gotest.tools/assert"
@@ -114,7 +113,7 @@ func TestNotOperation(t *testing.T) {
 			r1:       0,
 			r2:       2,
 			r3:       0,
-			expected: 2 ^ (int64(math.Pow(float64(2), 63)) - 1),
+			expected: 9223372036854775805,
 		},
 	}
 
