@@ -1,5 +1,9 @@
 package tinyram
 
+import (
+	"math"
+)
+
 type instruction string
 
 // TODO: list all the instruction used by TinyRAM
@@ -100,10 +104,10 @@ func xorOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 }
 
 func notOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-	result := tRAM.Register[r1] &^ r2
-	if result == 0 {
+	tRAM.Register[r1] = r2 ^ (int64(math.Pow(float64(2), 63)) - 1)
+	if tRAM.Register[r1] == 0 {
 		tRAM.ConditionFlag = true
-	} else if result != 0 {
+	} else if tRAM.Register[r1] != 0 {
 		tRAM.ConditionFlag = false
 	}
 }
