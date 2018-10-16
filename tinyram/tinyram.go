@@ -11,7 +11,7 @@ type tinyRAM struct {
 
 	// Register ... the length should be $NumRegister$
 	// and  each item be 64 bits
-	Register []int64
+	Register []uint64
 
 	// Memory ... the length should be 2^64
 	// and each word should be 64 bits

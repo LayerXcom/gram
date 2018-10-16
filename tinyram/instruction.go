@@ -36,7 +36,7 @@ const (
 	ANSWER instruction = "ANSWER"
 )
 
-var instructionToOperation = map[instruction]func(tRam *tinyRAM, r1, r2, r3 int64){
+var instructionToOperation = map[instruction]func(tRam *tinyRAM, r1, r2, r3 uint64){
 	AND:    andOperation,
 	OR:     orOperation,
 	XOR:    xorOperation,
@@ -66,20 +66,20 @@ var instructionToOperation = map[instruction]func(tRam *tinyRAM, r1, r2, r3 int6
 	ANSWER: answerOperation,
 }
 
-var maxInt63 int64 = int64(math.Pow(float64(2), 62)) - 1
+var maxUint64 uint64 = uint64(math.Pow(float64(2), 64) - 1)
 
 type instructionToken struct {
 	inst instruction
-	r1   int64
-	r2   int64
-	r3   int64
+	r1   uint64
+	r2   uint64
+	r3   uint64
 }
 
 //
 // Bit operations
 //
 
-func andOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func andOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	tRAM.Register[r1] = tRAM.Register[r2] & r3
 	if tRAM.Register[r1] == 0 {
 		tRAM.ConditionFlag = true
@@ -88,7 +88,7 @@ func andOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 	}
 }
 
-func orOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func orOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	tRAM.Register[r1] = tRAM.Register[r2] | r3
 	if tRAM.Register[r1] == 0 {
 		tRAM.ConditionFlag = true
@@ -97,7 +97,7 @@ func orOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 	}
 }
 
-func xorOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func xorOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	tRAM.Register[r1] = tRAM.Register[r2] ^ r3
 	if tRAM.Register[r1] == 0 {
 		tRAM.ConditionFlag = true
@@ -106,8 +106,8 @@ func xorOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 	}
 }
 
-func notOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-	tRAM.Register[r1] = r2 ^ maxInt63
+func notOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
+	tRAM.Register[r1] = r2 ^ math.MaxUint64
 	if tRAM.Register[r1] == 0 {
 		tRAM.ConditionFlag = true
 	} else {
@@ -119,52 +119,52 @@ func notOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 // Integer operations
 //
 
-func addOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func addOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	tRAM.Register[r1] = tRAM.Register[r2] + r3
-	if (tRAM.Register[r1] >> 62) & 1 == 1 {
+	if (tRAM.Register[r1] >> 63) & 1 == 1 {
 		tRAM.ConditionFlag = true
 	} else {
 		tRAM.ConditionFlag = false
 	}
 }
 
-func subOperation(tRAM *tinyRAM, r1, r2, r3 int64) {	
-	tRAM.Register[r1] = maxInt63 + tRAM.Register[r2] - r3
-	if (tRAM.Register[r1] >> 62) & 1 == 0 {
+func subOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {		
+	if tRAM.Register[r2] <= r3 {		
 		tRAM.ConditionFlag = true
 	} else {
+		tRAM.Register[r1] = tRAM.Register[r2] - r3
 		tRAM.ConditionFlag = false
 	}
 }
 
-func mullOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func mullOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	tRAM.Register[r1] = tRAM.Register[r2] * r3
-	if math.IsInf(float64(tRAM.Register[r1]), 1) || tRAM.Register[r1] < 0 {
+	if math.IsInf(float64(tRAM.Register[r1]), 1) {
 		tRAM.ConditionFlag = true
 	} else {
 		tRAM.ConditionFlag = false
 	}
 }
 
-func umulhOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func umulhOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	tRAM.Register[r1] = tRAM.Register[r2] * r3
-	if math.IsInf(float64(tRAM.Register[r1]), 1) || tRAM.Register[r1] < 0 {
+	if math.IsInf(float64(tRAM.Register[r1]), 1) {
 		tRAM.ConditionFlag = true
 	} else {
 		tRAM.ConditionFlag = false
 	}
 }
 
-func smulhOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func smulhOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	tRAM.Register[r1] = tRAM.Register[r2] * r3
-	if tRAM.Register[r1] > maxInt63 || tRAM.Register[r1] < maxInt63 * (-1) {
+	if math.IsInf(float64(tRAM.Register[r1]), 1) {
 		tRAM.ConditionFlag = true
 	} else {
 		tRAM.ConditionFlag = false
 	}
 }
 
-func udivOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func udivOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	if r3 == 0 {
 		tRAM.ConditionFlag = true
 	} else {
@@ -173,7 +173,7 @@ func udivOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 	}
 }
 
-func umodOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func umodOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	if r3 == 0 {
 		tRAM.ConditionFlag = true
 	} else {
@@ -186,66 +186,66 @@ func umodOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 // Shift operations
 //
 
-func shlOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func shlOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
 
-func shrOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func shrOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
 
-func cmpeOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func cmpeOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
 
-func cmpaOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func cmpaOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
 
-func cmpaeOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func cmpaeOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
 
-func cmpgOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func cmpgOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
 
-func cmpgeOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func cmpgeOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
 
-func movOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func movOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
 
-func cmovOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func cmovOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
 
-func jmpOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func jmpOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
 
-func cjmpOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func cjmpOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
 
-func cnjmpOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func cnjmpOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
 
-func storeOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func storeOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
 
-func loadOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func loadOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
 
-func readOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func readOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
 
-func answerOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+func answerOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }

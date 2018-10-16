@@ -34,12 +34,12 @@ func parseRawAsm(path string) (program, error) {
 		instToken.inst = inst
 
 		for i, _s := range tokens[1:] {
-			var v int64
+			var v uint64
 			s := strings.Replace(_s, "r", "", -1)
 			if err != nil {
 				panic(fmt.Sprintf("failed to parse operand: %s", _s))
 			}
-			v, err = strconv.ParseInt(s, 10, 64)
+			v, err = strconv.ParseUint(s, 10, 64)
 
 			switch i {
 			case 0:

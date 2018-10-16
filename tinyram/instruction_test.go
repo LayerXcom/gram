@@ -10,20 +10,20 @@ import (
 func TestAndOperation(t *testing.T) {
 	cases := []struct {
 		tRAM     *tinyRAM
-		r1       int64
-		r2       int64
-		r3       int64
-		expected int64
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64
 	}{
 		{
 			tRAM: &tinyRAM{
-				Register:      []int64{0, 0, 3},
+				Register:      []uint64{0, 0, 3},
 				ConditionFlag: true,
 			},
-			r1:       0,
-			r2:       2,
-			r3:       10,
-			expected: 3 & 10,
+			r1:       uint64(0),
+			r2:       uint64(2),
+			r3:       uint64(10),
+			expected: uint64(3 & 10),
 		},
 	}
 
@@ -40,14 +40,14 @@ func TestAndOperation(t *testing.T) {
 func TestOrOperation(t *testing.T) {
 	cases := []struct {
 		tRAM     *tinyRAM
-		r1       int64
-		r2       int64
-		r3       int64
-		expected int64
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64
 	}{
 		{
 			tRAM: &tinyRAM{
-				Register:      []int64{0, 0, 3},
+				Register:      []uint64{0, 0, 3},
 				ConditionFlag: true,
 			},
 			r1:       0,
@@ -70,14 +70,14 @@ func TestOrOperation(t *testing.T) {
 func TestXorOperation(t *testing.T) {
 	cases := []struct {
 		tRAM     *tinyRAM
-		r1       int64
-		r2       int64
-		r3       int64
-		expected int64
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64
 	}{
 		{
 			tRAM: &tinyRAM{
-				Register:      []int64{0, 0, 3},
+				Register:      []uint64{0, 0, 3},
 				ConditionFlag: true,
 			},
 			r1:       0,
@@ -100,20 +100,21 @@ func TestXorOperation(t *testing.T) {
 func TestNotOperation(t *testing.T) {
 	cases := []struct {
 		tRAM     *tinyRAM
-		r1       int64
-		r2       int64
-		r3       int64
-		expected int64
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64
 	}{
 		{
 			tRAM: &tinyRAM{
-				Register:      []int64{0, 0, 3},
+				Register:      []uint64{0, 0, 3},
 				ConditionFlag: true,
 			},
 			r1:       0,
 			r2:       2,
 			r3:       0,
-			expected: 4611686018427387901,
+			// 2 ^ (2 ** 64 -1) 
+			expected: 18446744073709551613,
 		},
 	}
 
@@ -130,14 +131,14 @@ func TestNotOperation(t *testing.T) {
 func TestAddOperation(t *testing.T) {
 	cases := []struct {
 		tRAM     *tinyRAM
-		r1       int64
-		r2       int64
-		r3       int64
-		expected int64
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
-				Register:      []int64{0, 0, 3},
+				Register:      []uint64{0, 0, 3},
 				ConditionFlag: true,
 			},
 			r1:       0,
@@ -160,21 +161,20 @@ func TestAddOperation(t *testing.T) {
 func TestSubOperation(t *testing.T) {
 	cases := []struct {
 		tRAM     *tinyRAM
-		r1       int64
-		r2       int64
-		r3       int64
-		expected int64
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
-				Register:      []int64{0, 0, 10},
+				Register:      []uint64{0, 0, 10},
 				ConditionFlag: true,
 			},
 			r1:       0,
 			r2:       2,
-			r3:       3,
-			// 4611686018427387903 + 3 - 10 =
-			expected: 4611686018427387910,
+			r3:       3,			
+			expected: 7,
 		},
 	}
 
@@ -191,14 +191,14 @@ func TestSubOperation(t *testing.T) {
 func TestMullOperation(t *testing.T) {
 	cases := []struct {
 		tRAM     *tinyRAM
-		r1       int64
-		r2       int64
-		r3       int64
-		expected int64
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
-				Register:      []int64{0, 0, 3},
+				Register:      []uint64{0, 0, 3},
 				ConditionFlag: true,
 			},
 			r1:       0,
@@ -221,14 +221,14 @@ func TestMullOperation(t *testing.T) {
 func TestUmlhOperation(t *testing.T) {
 	cases := []struct {
 		tRAM     *tinyRAM
-		r1       int64
-		r2       int64
-		r3       int64
-		expected int64
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
-				Register:      []int64{0, 0, 3},
+				Register:      []uint64{0, 0, 3},
 				ConditionFlag: true,
 			},
 			r1:       0,
@@ -251,14 +251,14 @@ func TestUmlhOperation(t *testing.T) {
 func TestSmulhOperation(t *testing.T) {
 	cases := []struct {
 		tRAM     *tinyRAM
-		r1       int64
-		r2       int64
-		r3       int64
-		expected int64
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
-				Register:      []int64{0, 0, 3},
+				Register:      []uint64{0, 0, 3},
 				ConditionFlag: true,
 			},
 			r1:       0,
@@ -281,14 +281,14 @@ func TestSmulhOperation(t *testing.T) {
 func TestUdivOperation(t *testing.T) {
 	cases := []struct {
 		tRAM     *tinyRAM
-		r1       int64
-		r2       int64
-		r3       int64
-		expected int64
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
-				Register:      []int64{0, 0, 10},
+				Register:      []uint64{0, 0, 10},
 				ConditionFlag: true,
 			},
 			r1:       0,
@@ -312,14 +312,14 @@ func TestUdivOperation(t *testing.T) {
 func TestUmodOperation(t *testing.T) {
 	cases := []struct {
 		tRAM     *tinyRAM
-		r1       int64
-		r2       int64
-		r3       int64
-		expected int64
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
-				Register:      []int64{0, 0, 10},
+				Register:      []uint64{0, 0, 10},
 				ConditionFlag: true,
 			},
 			r1:       0,
