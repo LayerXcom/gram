@@ -89,15 +89,25 @@ func notOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 }
 
 func addOperatiopn(tRAM *tinyRAM, r1, r2, r3 int64) {
-
+	tRAM.Register[r1] = tRAM.Register[r2] + r3
+	if tRAM.Register[r1] > 2^tRAM.WordSize-1 {
+		tRAM.ConditionFlag = true
+	} else {
+		tRAM.ConditionFlag = false
+	}
 }
 
 func subOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-
+	tRAM.Register[r1] = tRAM.Register[r2] + 2 ^ tRAM.WordSize - r3
+	if tRAM.Register[r1] <= 2^tRAM.WordSize-1 {
+		tRAM.ConditionFlag = true
+	} else {
+		tRAM.ConditionFlag = false
+	}
 }
 
 func mullOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-
+	tRAM.Register[r1] = tRAM.Register[r2] * r3
 }
 
 func umulhOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
