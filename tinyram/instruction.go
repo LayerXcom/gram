@@ -75,12 +75,11 @@ type instructionToken struct {
 	r3   int64
 }
 
-// TODO: implement the behavior of all instructions
 func andOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 	tRAM.Register[r1] = tRAM.Register[r2] & r3
 	if tRAM.Register[r1] == 0 {
 		tRAM.ConditionFlag = true
-	} else if tRAM.Register[r1] != 0 {
+	} else {
 		tRAM.ConditionFlag = false
 	}
 }
@@ -89,7 +88,7 @@ func orOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 	tRAM.Register[r1] = tRAM.Register[r2] | r3
 	if tRAM.Register[r1] == 0 {
 		tRAM.ConditionFlag = true
-	} else if tRAM.Register[r1] != 0 {
+	} else {
 		tRAM.ConditionFlag = false
 	}
 }
@@ -98,7 +97,7 @@ func xorOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 	tRAM.Register[r1] = tRAM.Register[r2] ^ r3
 	if tRAM.Register[r1] == 0 {
 		tRAM.ConditionFlag = true
-	} else if tRAM.Register[r1] != 0 {
+	} else {
 		tRAM.ConditionFlag = false
 	}
 }
@@ -107,7 +106,7 @@ func notOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 	tRAM.Register[r1] = r2 ^ (int64(math.Pow(float64(2), 63)) - 1)
 	if tRAM.Register[r1] == 0 {
 		tRAM.ConditionFlag = true
-	} else if tRAM.Register[r1] != 0 {
+	} else {
 		tRAM.ConditionFlag = false
 	}
 }
