@@ -41,7 +41,7 @@ var instructionToOperation = map[instruction]func(tRam *tinyRAM, r1, r2, r3 int6
 	OR:     orOperation,
 	XOR:    xorOperation,
 	NOT:    notOperation,
-	ADD:    addOperatiopn,
+	ADD:    addOperation,
 	SUB:    subOperation,
 	MULL:   mullOperation,
 	UMULH:  umulhOperation,
@@ -65,6 +65,9 @@ var instructionToOperation = map[instruction]func(tRam *tinyRAM, r1, r2, r3 int6
 	READ:   readOperation,
 	ANSWER: answerOperation,
 }
+
+var maxInt64 int64 = int64(math.Pow(float64(2), 63)) - 1
+var maxInt63 int64 = int64(math.Pow(float64(2), 62)) - 1
 
 type instructionToken struct {
 	inst instruction
@@ -101,7 +104,7 @@ func xorOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 }
 
 func notOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-	tRAM.Register[r1] = r2 ^ (int64(math.Pow(float64(2), 63)) - 1)
+	tRAM.Register[r1] = r2 ^ maxInt64
 	if tRAM.Register[r1] == 0 {
 		tRAM.ConditionFlag = true
 	} else {
@@ -109,9 +112,9 @@ func notOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 	}
 }
 
-func addOperatiopn(tRAM *tinyRAM, r1, r2, r3 int64) {
+func addOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 	tRAM.Register[r1] = tRAM.Register[r2] + r3
-	if tRAM.Register[r1] > 2^tRAM.WordSize-1 {
+	if math.IsInf(float64(tRAM.Register[r1]), 1) {
 		tRAM.ConditionFlag = true
 	} else {
 		tRAM.ConditionFlag = false
@@ -119,8 +122,12 @@ func addOperatiopn(tRAM *tinyRAM, r1, r2, r3 int64) {
 }
 
 func subOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-	tRAM.Register[r1] = tRAM.Register[r2] + 2 ^ tRAM.WordSize - r3
-	if tRAM.Register[r1] <= 2^tRAM.WordSize-1 {
+	if r2 <= r3 {
+		tRAM.Register[r1] = maxInt64 + tRAM.Register[r2] - r3
+	} else {
+		// panic()
+	}
+	if tRAM.Register[r1] <= maxInt64 {
 		tRAM.ConditionFlag = true
 	} else {
 		tRAM.ConditionFlag = false
@@ -129,22 +136,47 @@ func subOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 
 func mullOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 	tRAM.Register[r1] = tRAM.Register[r2] * r3
+	if math.IsInf(float64(tRAM.Register[r1]), 1) || tRAM.Register[r1] < 0 {
+		tRAM.ConditionFlag = true
+	} else {
+		tRAM.ConditionFlag = false
+	}
 }
 
 func umulhOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-
+	tRAM.Register[r1] = tRAM.Register[r2] * r3
+	if math.IsInf(float64(tRAM.Register[r1]), 1) || tRAM.Register[r1] < 0 {
+		tRAM.ConditionFlag = true
+	} else {
+		tRAM.ConditionFlag = false
+	}
 }
 
 func smulhOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-
+	tRAM.Register[r1] = tRAM.Register[r2] * r3
+	if tRAM.Register[r1] > maxInt63 || tRAM.Register[r1] < maxInt63 * (-1) {
+		tRAM.ConditionFlag = true
+	} else {
+		tRAM.ConditionFlag = false
+	}
 }
 
 func udivOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-
+	if r3 == 0 {
+		tRAM.ConditionFlag = true
+	} else {
+		tRAM.Register[r1] = tRAM.Register[r2] / r3
+		tRAM.ConditionFlag = false
+	}
 }
 
 func umodOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-
+	if r3 == 0 {
+		tRAM.ConditionFlag = true
+	} else {
+		tRAM.Register[r1] = tRAM.Register[r2] % r3
+		tRAM.ConditionFlag = false
+	}
 }
 
 func shlOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
