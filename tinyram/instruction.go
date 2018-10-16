@@ -66,7 +66,6 @@ var instructionToOperation = map[instruction]func(tRam *tinyRAM, r1, r2, r3 int6
 	ANSWER: answerOperation,
 }
 
-var maxInt64 int64 = int64(math.Pow(float64(2), 63)) - 1
 var maxInt63 int64 = int64(math.Pow(float64(2), 62)) - 1
 
 type instructionToken struct {
@@ -75,6 +74,10 @@ type instructionToken struct {
 	r2   int64
 	r3   int64
 }
+
+//
+// Bit operations
+//
 
 func andOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 	tRAM.Register[r1] = tRAM.Register[r2] & r3
@@ -104,7 +107,7 @@ func xorOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 }
 
 func notOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-	tRAM.Register[r1] = r2 ^ maxInt64
+	tRAM.Register[r1] = r2 ^ maxInt63
 	if tRAM.Register[r1] == 0 {
 		tRAM.ConditionFlag = true
 	} else {
@@ -112,22 +115,22 @@ func notOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 	}
 }
 
+//
+// Integer operations
+//
+
 func addOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 	tRAM.Register[r1] = tRAM.Register[r2] + r3
-	if math.IsInf(float64(tRAM.Register[r1]), 1) {
+	if (tRAM.Register[r1] >> 63) & 1 == 1 {
 		tRAM.ConditionFlag = true
 	} else {
 		tRAM.ConditionFlag = false
 	}
 }
 
-func subOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-	if r2 <= r3 {
-		tRAM.Register[r1] = maxInt64 + tRAM.Register[r2] - r3
-	} else {
-		// panic()
-	}
-	if tRAM.Register[r1] <= maxInt64 {
+func subOperation(tRAM *tinyRAM, r1, r2, r3 int64) {	
+	tRAM.Register[r1] = maxInt63 + tRAM.Register[r2] - r3
+	if (tRAM.Register[r1] >> 63) & 1 == 1 {
 		tRAM.ConditionFlag = true
 	} else {
 		tRAM.ConditionFlag = false
@@ -178,6 +181,10 @@ func umodOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 		tRAM.ConditionFlag = false
 	}
 }
+
+//
+// Shift operations
+//
 
 func shlOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 

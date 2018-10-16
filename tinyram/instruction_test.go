@@ -113,7 +113,7 @@ func TestNotOperation(t *testing.T) {
 			r1:       0,
 			r2:       2,
 			r3:       0,
-			expected: 9223372036854775805,
+			expected: 4611686018427387901,
 		},
 	}
 
@@ -173,7 +173,8 @@ func TestSubOperation(t *testing.T) {
 			r1:       0,
 			r2:       2,
 			r3:       10,
-			expected: 3 + 10,
+			// 4611686018427387903 + 3 - 10 =
+			expected: 4611686018427387896,
 		},
 	}
 
@@ -271,6 +272,68 @@ func TestSmulhOperation(t *testing.T) {
 		tcc := tc
 		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
 			smulhOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
+			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
+			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+		})
+	}
+}
+
+func TestUdivOperation(t *testing.T) {
+	cases := []struct {
+		tRAM     *tinyRAM
+		r1       int64
+		r2       int64
+		r3       int64
+		expected int64
+	}{
+		{
+			tRAM: &tinyRAM{				
+				Register:      []int64{0, 0, 10},
+				ConditionFlag: true,
+			},
+			r1:       0,
+			r2:       2,
+			r3:       3,
+			// 10 / 3 = 3 with a remainder 1
+			expected: 3,
+		},
+	}
+
+	for n, tc := range cases {
+		tcc := tc
+		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
+			udivOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
+			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
+			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+		})
+	}
+}
+
+func TestUmodOperation(t *testing.T) {
+	cases := []struct {
+		tRAM     *tinyRAM
+		r1       int64
+		r2       int64
+		r3       int64
+		expected int64
+	}{
+		{
+			tRAM: &tinyRAM{				
+				Register:      []int64{0, 0, 10},
+				ConditionFlag: true,
+			},
+			r1:       0,
+			r2:       2,
+			r3:       3,
+			// 10 / 3 = 3 with a remainder 1
+			expected: 1,
+		},
+	}
+
+	for n, tc := range cases {
+		tcc := tc
+		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
+			umodOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
 			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
 			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
 		})
