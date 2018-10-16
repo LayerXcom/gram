@@ -121,7 +121,7 @@ func notOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 
 func addOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 	tRAM.Register[r1] = tRAM.Register[r2] + r3
-	if (tRAM.Register[r1] >> 63) & 1 == 1 {
+	if (tRAM.Register[r1] >> 62) & 1 == 1 {
 		tRAM.ConditionFlag = true
 	} else {
 		tRAM.ConditionFlag = false
@@ -130,7 +130,7 @@ func addOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
 
 func subOperation(tRAM *tinyRAM, r1, r2, r3 int64) {	
 	tRAM.Register[r1] = maxInt63 + tRAM.Register[r2] - r3
-	if (tRAM.Register[r1] >> 63) & 1 == 1 {
+	if (tRAM.Register[r1] >> 62) & 1 == 0 {
 		tRAM.ConditionFlag = true
 	} else {
 		tRAM.ConditionFlag = false

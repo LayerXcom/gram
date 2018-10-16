@@ -167,14 +167,14 @@ func TestSubOperation(t *testing.T) {
 	}{
 		{
 			tRAM: &tinyRAM{				
-				Register:      []int64{0, 0, 3},
+				Register:      []int64{0, 0, 10},
 				ConditionFlag: true,
 			},
 			r1:       0,
 			r2:       2,
-			r3:       10,
+			r3:       3,
 			// 4611686018427387903 + 3 - 10 =
-			expected: 4611686018427387896,
+			expected: 4611686018427387910,
 		},
 	}
 
