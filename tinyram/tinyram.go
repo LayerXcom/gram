@@ -27,11 +27,11 @@ type tinyRAM struct {
 	AuxiliaryInput []int64
 
 	// Prog ... READ-ONLY program
-	Prog  program
+	Prog program
 
 	// represents the correctness of the computation
 	// and is set to be false by default.
-	Accept  bool
+	Accept bool
 }
 
 // execute current instruction pointed by the tinyRAM
@@ -61,15 +61,17 @@ func (r *tinyRAM) Exec(t int) bool {
 }
 
 // get the pointer of tinyRAMInstance with a given ASM program.
-func GetTinyRAMInstance(asmPath string, wordSize, numRegister int64) (*tinyRAM, error) {
+func GetTinyRAMInstance(asmPath string, wordSize, numRegister int64, primary, auxiliary []int64) (*tinyRAM, error) {
 	ps, err := parseRawAsm(asmPath)
 	if err != nil {
 		return nil, err
 	}
 	tr := tinyRAM{
-		WordSize:    wordSize,
-		NumRegister: numRegister,
-		Prog: ps,
+		WordSize:       wordSize,
+		NumRegister:    numRegister,
+		Prog:           ps,
+		PrimaryInput:   primary,
+		AuxiliaryInput: auxiliary,
 	}
 	return &tr, nil
 }

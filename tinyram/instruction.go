@@ -1,8 +1,10 @@
 package tinyram
 
-type instruction string
+import (
+	"math"
+)
 
-// TODO: list all the instruction used by TinyRAM
+type instruction string
 
 const (
 	AND    instruction = "AND"
@@ -35,7 +37,7 @@ const (
 )
 
 var instructionToOperation = map[instruction]func(tRam *tinyRAM, r1, r2, r3 int64){
-	AND:    addOperation,
+	AND:    andOperation,
 	OR:     orOperation,
 	XOR:    xorOperation,
 	NOT:    notOperation,
@@ -71,21 +73,40 @@ type instructionToken struct {
 	r3   int64
 }
 
-// TODO: implement the behavior of all instructions
-func addOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-
+func andOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
+	tRAM.Register[r1] = tRAM.Register[r2] & r3
+	if tRAM.Register[r1] == 0 {
+		tRAM.ConditionFlag = true
+	} else {
+		tRAM.ConditionFlag = false
+	}
 }
 
 func orOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-
+	tRAM.Register[r1] = tRAM.Register[r2] | r3
+	if tRAM.Register[r1] == 0 {
+		tRAM.ConditionFlag = true
+	} else {
+		tRAM.ConditionFlag = false
+	}
 }
 
 func xorOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-
+	tRAM.Register[r1] = tRAM.Register[r2] ^ r3
+	if tRAM.Register[r1] == 0 {
+		tRAM.ConditionFlag = true
+	} else {
+		tRAM.ConditionFlag = false
+	}
 }
 
 func notOperation(tRAM *tinyRAM, r1, r2, r3 int64) {
-
+	tRAM.Register[r1] = r2 ^ (int64(math.Pow(float64(2), 63)) - 1)
+	if tRAM.Register[r1] == 0 {
+		tRAM.ConditionFlag = true
+	} else {
+		tRAM.ConditionFlag = false
+	}
 }
 
 func addOperatiopn(tRAM *tinyRAM, r1, r2, r3 int64) {
