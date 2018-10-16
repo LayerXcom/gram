@@ -128,11 +128,11 @@ func addOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	}
 }
 
-func subOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {		
+func subOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {	
+	tRAM.Register[r1] = uint64(math.Abs(float64(tRAM.Register[r2] - r3)))
 	if tRAM.Register[r2] <= r3 {		
 		tRAM.ConditionFlag = true
-	} else {
-		tRAM.Register[r1] = tRAM.Register[r2] - r3
+	} else {		
 		tRAM.ConditionFlag = false
 	}
 }
