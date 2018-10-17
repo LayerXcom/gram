@@ -399,3 +399,153 @@ func TestShrOperation(t *testing.T) {
 		})
 	}
 }
+
+func TestCmpeOperation(t *testing.T) {
+	cases := []struct {
+		tRAM     *tinyRAM
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64
+	}{
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 0},
+				ConditionFlag: true,
+			},
+			r1:       1,
+			r2:       2,
+			r3:       0,			
+			expected: 0,
+		},
+	}
+
+	for n, tc := range cases {
+		tcc := tc
+		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
+			cmpeOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
+			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
+			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+		})
+	}
+}
+
+func TestCmpaOperation(t *testing.T) {
+	cases := []struct {
+		tRAM     *tinyRAM
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64
+	}{
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 0},
+				ConditionFlag: true,
+			},
+			r1:       1,
+			r2:       2,
+			r3:       0,			
+			expected: 0,
+		},
+	}
+
+	for n, tc := range cases {
+		tcc := tc
+		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
+			cmpaOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
+			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
+			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+		})
+	}
+}
+
+func TestCmpaeOperation(t *testing.T) {
+	cases := []struct {
+		tRAM     *tinyRAM
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64
+	}{
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 0},
+				ConditionFlag: true,
+			},
+			r1:       1,
+			r2:       2,
+			r3:       0,			
+			expected: 0,
+		},
+	}
+
+	for n, tc := range cases {
+		tcc := tc
+		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
+			cmpaeOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
+			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
+			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+		})
+	}
+}
+
+func TestCmpgOperation(t *testing.T) {
+	cases := []struct {
+		tRAM     *tinyRAM
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64
+	}{
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 0},
+				ConditionFlag: true,
+			},
+			r1:       1,
+			r2:       2,
+			r3:       0,			
+			expected: 0,
+		},
+	}
+
+	for n, tc := range cases {
+		tcc := tc
+		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
+			cmpgOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
+			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
+			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+		})
+	}
+}
+
+func TestCmpgeOperation(t *testing.T) {
+	cases := []struct {
+		tRAM     *tinyRAM
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64
+	}{
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 0},
+				ConditionFlag: true,
+			},
+			r1:       1,
+			r2:       2,
+			r3:       0,			
+			expected: 0,
+		},
+	}
+
+	for n, tc := range cases {
+		tcc := tc
+		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
+			cmpgeOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
+			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
+			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+		})
+	}
+}
