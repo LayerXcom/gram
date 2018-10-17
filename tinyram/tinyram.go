@@ -61,9 +61,7 @@ func (r *tinyRAM) Exec(t int) bool {
 		// prevent out of range panic
 		if len(r.Prog) <= i {
 			break
-		}
-		fmt.Println(len(r.Prog), i)		
-
+		}			
 
 		r.ExecCurrentInstruction()
 		if r.Accept {
