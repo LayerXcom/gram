@@ -7,6 +7,7 @@ import (
 	"gotest.tools/assert"
 )
 
+// execute the program noted in https://www.scipr-lab.org/doc/TinyRAM-spec-0.991.pdf
 func TestExecution(t *testing.T) {
 	cases := []struct {
 		path string		
