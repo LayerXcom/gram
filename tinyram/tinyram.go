@@ -42,8 +42,10 @@ type tinyRAM struct {
 }
 
 // execute current instruction pointed by the tinyRAM
-func (r *tinyRAM) ExecCurrentInstruction() {
+func (r *tinyRAM) ExecCurrentInstruction() {	
+	// fmt.Println(r.Pc)
 	inst := r.Prog[r.Pc]
+	// fmt.Println(inst)
 	op, ok := instructionToOperation[inst.inst]
 	if !ok {
 		panic(fmt.Sprintf("operation not defined for %s", inst.inst))
@@ -55,12 +57,14 @@ func (r *tinyRAM) ExecCurrentInstruction() {
 // execute whole program and return whether the calculation accepted of NOT.
 // `t` parameter represents $T$, time bound, in the paper.
 func (r *tinyRAM) Exec(t int) bool {
-	for i := 0; i < t; t++ {
+	for i := 0; i < t; i++ {
 
 		// prevent out of range panic
 		if len(r.Prog) <= i {
 			break
 		}
+		fmt.Println(len(r.Prog), i)		
+
 
 		r.ExecCurrentInstruction()
 		if r.Accept {
@@ -72,7 +76,7 @@ func (r *tinyRAM) Exec(t int) bool {
 
 // get the pointer of tinyRAMInstance with a given ASM program.
 func GetTinyRAMInstance(asmPath string, numRegister uint64, primary, auxiliary []uint64) (*tinyRAM, error) {
-	ps, err := parseRawAsm(asmPath)
+	ps, err := parseRawAsm(asmPath)	
 	if err != nil {
 		return nil, err
 	}

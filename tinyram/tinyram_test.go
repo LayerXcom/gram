@@ -16,12 +16,12 @@ func TestExecution(t *testing.T) {
 	}{
 		{
 			path: "../example/testForSuccess.asm",
-			timeBound: 9,
+			timeBound: 7,
 			expectedFlag: true,
 		},
 		{
 			path: "../example/testForFail.asm",
-			timeBound: 8,	
+			timeBound: 6,	
 			expectedFlag: false,		
 		},
 	}
