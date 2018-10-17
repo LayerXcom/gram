@@ -962,20 +962,94 @@ func TestReadOperation(t *testing.T) {
 		r1 uint64
 		r2 uint64
 		r3 uint64
-		expectedValue uint64
+		expectedValue uint64		
 		expectedPc uint64
+		expectedFlag bool
+		expectedPrimaryInputCount uint64
+		expectedAuxiliaryInputCount uint64
 	}{
 		{
 			tRAM: &tinyRAM{
 				Register: []uint64{0, 0, 0},
 				Memory: []uint64{0, 0, 5},
-				Pc: 1,				
+				PrimaryInput: []uint64{3, 4, 5},
+				Pc: 1,
+				ConditionFlag: true,
+				PrimaryInputCount: 1,
 			},
 			r1: 1,
-			r2: 2,
+			r2: 0,
+			r3: 0,
+			expectedValue: 4,
+			expectedPc: 2,
+			expectedFlag: false,
+			expectedPrimaryInputCount: 2,
+		},
+		{
+			tRAM: &tinyRAM{
+				Register: []uint64{0, 0, 0},
+				Memory: []uint64{0, 0, 5},
+				PrimaryInput: []uint64{3, 4, 5},
+				Pc: 1,
+				ConditionFlag: false,
+				PrimaryInputCount: 3,
+			},
+			r1: 1,
+			r2: 0,
+			r3: 0,
+			expectedValue: 0,
+			expectedPc: 2,
+			expectedFlag: true,
+			expectedPrimaryInputCount: 3,
+		},
+		{
+			tRAM: &tinyRAM{
+				Register: []uint64{0, 0, 0},
+				Memory: []uint64{0, 0, 5},
+				AuxiliaryInput: []uint64{3, 4, 5},
+				Pc: 1,
+				ConditionFlag: true,
+				AuxiliaryInputCount: 2,
+			},
+			r1: 1,
+			r2: 1,
 			r3: 0,
 			expectedValue: 5,
 			expectedPc: 2,
+			expectedFlag: false,
+			expectedAuxiliaryInputCount: 3,
+		},
+		{
+			tRAM: &tinyRAM{
+				Register: []uint64{0, 0, 0},
+				Memory: []uint64{0, 0, 5},
+				AuxiliaryInput: []uint64{3, 4, 5},
+				Pc: 1,
+				ConditionFlag: false,
+				AuxiliaryInputCount: 3,
+			},
+			r1: 1,
+			r2: 1,
+			r3: 0,
+			expectedValue: 0,
+			expectedPc: 2,
+			expectedFlag: true,
+			expectedAuxiliaryInputCount: 3,
+		},
+		{
+			tRAM: &tinyRAM{
+				Register: []uint64{0, 0, 0},
+				Memory: []uint64{0, 0, 5},
+				AuxiliaryInput: []uint64{3, 4, 5},
+				Pc: 1,
+				ConditionFlag: false,				
+			},
+			r1: 1,
+			r2: 3,
+			r3: 0,
+			expectedValue: 0,
+			expectedPc: 2,
+			expectedFlag: true,			
 		},
 	}
 
@@ -985,6 +1059,10 @@ func TestReadOperation(t *testing.T) {
 			readOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
 			assert.Equal(t, tcc.expectedValue, tcc.tRAM.Register[1])
 			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
+			assert.Equal(t, tcc.expectedFlag, tcc.tRAM.ConditionFlag)
+			assert.Equal(t, tcc.expectedPrimaryInputCount, tcc.tRAM.PrimaryInputCount)
+			assert.Equal(t, tcc.expectedAuxiliaryInputCount, tcc.tRAM.AuxiliaryInputCount)
 		})
 	}
 }
+

@@ -354,6 +354,6 @@ func readOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 //
 
 // The program accepted if the return value is 0
-func answerOperation(tRAM *tinyRAM, r1, r2, r3 uint64) uint64 {
-	return r1
+func answerOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
+	// return r1
 }
