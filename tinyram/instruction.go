@@ -66,8 +66,6 @@ var instructionToOperation = map[instruction]func(tRam *tinyRAM, r1, r2, r3 uint
 	ANSWER: answerOperation,
 }
 
-var maxUint64 uint64 = uint64(math.Pow(float64(2), 64) - 1)
-
 type instructionToken struct {
 	inst instruction
 	r1   uint64
