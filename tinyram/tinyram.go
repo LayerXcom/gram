@@ -15,7 +15,7 @@ type tinyRAM struct {
 	// and  each item be 64 bits
 	Register []uint64
 
-	// Memory ... the length should be 2^63
+	// Memory ... the length should be 64
 	// and each word should be 64 bits
 	Memory []uint64
 
