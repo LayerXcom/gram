@@ -434,7 +434,8 @@ func TestCmpeOperation(t *testing.T) {
 		r1       uint64
 		r2       uint64
 		r3       uint64
-		expected uint64
+		expectedValue uint64
+		expectedFlag bool
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -444,7 +445,19 @@ func TestCmpeOperation(t *testing.T) {
 			r1:       1,
 			r2:       2,
 			r3:       0,			
-			expected: 0,
+			expectedValue: 0,
+			expectedFlag: false,
+		},
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 0},
+				ConditionFlag: false,
+			},
+			r1:       2,
+			r2:       2,
+			r3:       0,			
+			expectedValue: 0,
+			expectedFlag: true,
 		},
 	}
 
@@ -452,8 +465,8 @@ func TestCmpeOperation(t *testing.T) {
 		tcc := tc
 		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
 			cmpeOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
-			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
-			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+			assert.Equal(t, tcc.expectedValue, tcc.tRAM.Register[tcc.r1])
+			assert.Equal(t, tcc.expectedFlag, tcc.tRAM.ConditionFlag)
 		})
 	}
 }
@@ -464,7 +477,8 @@ func TestCmpaOperation(t *testing.T) {
 		r1       uint64
 		r2       uint64
 		r3       uint64
-		expected uint64
+		expectedValue uint64
+		expectedFlag bool
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -474,16 +488,27 @@ func TestCmpaOperation(t *testing.T) {
 			r1:       1,
 			r2:       2,
 			r3:       0,			
-			expected: 0,
+			expectedValue: 0,
+			expectedFlag: false,
+		},
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 0},
+				ConditionFlag: false,
+			},
+			r1:       3,
+			r2:       2,
+			r3:       0,			
+			expectedValue: 0,
+			expectedFlag: true,
 		},
 	}
 
 	for n, tc := range cases {
 		tcc := tc
 		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
-			cmpaOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
-			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
-			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+			cmpaOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)			
+			assert.Equal(t, tcc.expectedFlag, tcc.tRAM.ConditionFlag)
 		})
 	}
 }
@@ -494,7 +519,8 @@ func TestCmpaeOperation(t *testing.T) {
 		r1       uint64
 		r2       uint64
 		r3       uint64
-		expected uint64
+		expectedValue uint64
+		expectedFlag bool
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -504,16 +530,27 @@ func TestCmpaeOperation(t *testing.T) {
 			r1:       1,
 			r2:       2,
 			r3:       0,			
-			expected: 0,
+			expectedValue: 0,
+			expectedFlag: false,
+		},
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 0},
+				ConditionFlag: false,
+			},
+			r1:       2,
+			r2:       2,
+			r3:       0,			
+			expectedValue: 0,
+			expectedFlag: true,
 		},
 	}
 
 	for n, tc := range cases {
 		tcc := tc
 		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
-			cmpaeOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
-			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
-			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+			cmpaeOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)			
+			assert.Equal(t, tcc.expectedFlag, tcc.tRAM.ConditionFlag)
 		})
 	}
 }
@@ -524,7 +561,8 @@ func TestCmpgOperation(t *testing.T) {
 		r1       uint64
 		r2       uint64
 		r3       uint64
-		expected uint64
+		expectedValue uint64
+		expectedFlag bool
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -534,16 +572,27 @@ func TestCmpgOperation(t *testing.T) {
 			r1:       1,
 			r2:       2,
 			r3:       0,			
-			expected: 0,
+			expectedValue: 0,
+			expectedFlag: false,
+		},
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 0},
+				ConditionFlag: false,
+			},
+			r1:       3,
+			r2:       2,
+			r3:       0,			
+			expectedValue: 0,
+			expectedFlag: true,
 		},
 	}
 
 	for n, tc := range cases {
 		tcc := tc
 		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
-			cmpgOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
-			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
-			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+			cmpgOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)			
+			assert.Equal(t, tcc.expectedFlag, tcc.tRAM.ConditionFlag)
 		})
 	}
 }
@@ -554,7 +603,8 @@ func TestCmpgeOperation(t *testing.T) {
 		r1       uint64
 		r2       uint64
 		r3       uint64
-		expected uint64
+		expectedValue uint64
+		expectedFlag bool
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -564,16 +614,27 @@ func TestCmpgeOperation(t *testing.T) {
 			r1:       1,
 			r2:       2,
 			r3:       0,			
-			expected: 0,
+			expectedValue: 0,
+			expectedFlag: false,
+		},
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 0},
+				ConditionFlag: false,
+			},
+			r1:       2,
+			r2:       2,
+			r3:       0,			
+			expectedValue: 0,
+			expectedFlag: true,
 		},
 	}
 
 	for n, tc := range cases {
 		tcc := tc
 		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
-			cmpgeOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
-			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
-			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+			cmpgeOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)			
+			assert.Equal(t, tcc.expectedFlag, tcc.tRAM.ConditionFlag)
 		})
 	}
 }
