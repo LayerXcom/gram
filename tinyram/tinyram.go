@@ -79,7 +79,7 @@ func GetTinyRAMInstance(asmPath string, numRegister uint64, primary, auxiliary [
 		Prog:           ps,
 		PrimaryInput:   primary,
 		AuxiliaryInput: auxiliary,
-		Register:       make([]int64, numRegister),
+		Register:       make([]uint64, numRegister),
 	}
 	return &tr, nil
 }
