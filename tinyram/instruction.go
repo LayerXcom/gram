@@ -66,8 +66,6 @@ var instructionToOperation = map[instruction]func(tRam *tinyRAM, r1, r2, r3 uint
 	ANSWER: answerOperation,
 }
 
-var maxUint64 uint64 = uint64(math.Pow(float64(2), 64) - 1)
-
 type instructionToken struct {
 	inst instruction
 	r1   uint64
@@ -197,7 +195,7 @@ func shlOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 func shrOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	tRAM.Register[r1] = tRAM.Register[r2] >> r3
-	if (tRAM.Register[r1] >> 63) & 1 == 1 {
+	if tRAM.Register[r1] & 1 == 1 {
 		tRAM.ConditionFlag = true
 	} else {
 		tRAM.ConditionFlag = false
