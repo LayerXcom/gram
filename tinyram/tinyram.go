@@ -3,7 +3,7 @@ package tinyram
 import "fmt"
 
 type tinyRAM struct {	
-	NumRegister   int64
+	NumRegister   uint64
 	ConditionFlag bool
 
 	// pc ... Program Counter
@@ -15,15 +15,21 @@ type tinyRAM struct {
 
 	// Memory ... the length should be 2^64
 	// and each word should be 64 bits
-	Memory []int64
+	Memory []uint64
 
 	// PrimaryInput ... represents primary input of the computation
 	// each word should be 64 bits
-	PrimaryInput []int64
+	PrimaryInput []uint64
+
+	// PrimaryInputCount ... Counter for the readed PrimaryInput
+	PrimaryInputCount uint64
 
 	// AuxiliaryInput ... represents auxiliary input of the computation
 	// each word should be 64 bits
-	AuxiliaryInput []int64
+	AuxiliaryInput []uint64
+
+	// AuxiliaryInputCount ... Counter for the readed AuxiliaryInputCount
+	AuxiliaryInputCount uint64
 
 	// Prog ... READ-ONLY program
 	Prog program
@@ -60,7 +66,7 @@ func (r *tinyRAM) Exec(t int) bool {
 }
 
 // get the pointer of tinyRAMInstance with a given ASM program.
-func GetTinyRAMInstance(asmPath string, numRegister int64, primary, auxiliary []int64) (*tinyRAM, error) {
+func GetTinyRAMInstance(asmPath string, numRegister uint64, primary, auxiliary []uint64) (*tinyRAM, error) {
 	ps, err := parseRawAsm(asmPath)
 	if err != nil {
 		return nil, err

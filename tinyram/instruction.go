@@ -310,11 +310,13 @@ func cnjmpOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 //
 
 func storeOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
-
+	tRAM.Memory[r1] = r2
+	tRAM.Pc++
 }
 
 func loadOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
-
+	tRAM.Register[r1] = tRAM.Memory[r2]
+	tRAM.Pc++
 }
 
 //
@@ -322,13 +324,36 @@ func loadOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 //
 
 func readOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
-
+	if r2 == 0 {
+		if tRAM.PrimaryInputCount <= uint64(len(tRAM.PrimaryInput)) - 1 {
+			tRAM.Register[r1] = tRAM.PrimaryInput[tRAM.PrimaryInputCount]
+			tRAM.PrimaryInputCount++
+			tRAM.ConditionFlag = false
+		} else {
+			tRAM.Register[r1] = 0
+			tRAM.ConditionFlag = true
+		}				
+	} else if r2 == 1 {
+		if tRAM.AuxiliaryInputCount <= uint64(len(tRAM.AuxiliaryInput)) - 1 {
+			tRAM.Register[r1] = tRAM.AuxiliaryInput[tRAM.AuxiliaryInputCount]
+			tRAM.AuxiliaryInputCount++
+			tRAM.ConditionFlag = false
+		} else {
+			tRAM.Register[r1] = 0
+			tRAM.ConditionFlag = true
+		}
+	} else {
+		tRAM.Register[r1] = 0
+		tRAM.ConditionFlag = true
+	}
+	tRAM.Pc++
 }
 
 //
 // Answer operations
 //
 
-func answerOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
-
+// The program accepted if the return value is 0
+func answerOperation(tRAM *tinyRAM, r1, r2, r3 uint64) uint64 {
+	return r1
 }

@@ -889,3 +889,102 @@ func TestCnjmpOperation(t *testing.T) {
 		})
 	}
 }
+
+func TestStoreOperation(t *testing.T) {
+	cases := []struct {
+		tRAM *tinyRAM
+		r1 uint64
+		r2 uint64
+		r3 uint64
+		expectedValue uint64
+		expectedPc uint64
+	}{
+		{
+			tRAM: &tinyRAM{
+				Register: []uint64{0, 0, 0},
+				Memory: []uint64{0, 0, 0},
+				Pc: 0,				
+			},
+			r1: 1,
+			r2: 3,
+			r3: 0,
+			expectedValue: 3,
+			expectedPc: 1,
+		},
+	}
+
+	for n, tc := range cases {
+		tcc := tc
+		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
+			storeOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
+			assert.Equal(t, tcc.expectedValue, tcc.tRAM.Memory[1])
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
+		})
+	}
+}
+
+func TestLoadOperation(t *testing.T) {
+	cases := []struct {
+		tRAM *tinyRAM
+		r1 uint64
+		r2 uint64
+		r3 uint64
+		expectedValue uint64
+		expectedPc uint64
+	}{
+		{
+			tRAM: &tinyRAM{
+				Register: []uint64{0, 0, 0},
+				Memory: []uint64{0, 0, 5},
+				Pc: 1,				
+			},
+			r1: 1,
+			r2: 2,
+			r3: 0,
+			expectedValue: 5,
+			expectedPc: 2,
+		},
+	}
+
+	for n, tc := range cases {
+		tcc := tc
+		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
+			loadOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
+			assert.Equal(t, tcc.expectedValue, tcc.tRAM.Register[1])
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
+		})
+	}
+}
+
+func TestReadOperation(t *testing.T) {
+	cases := []struct {
+		tRAM *tinyRAM
+		r1 uint64
+		r2 uint64
+		r3 uint64
+		expectedValue uint64
+		expectedPc uint64
+	}{
+		{
+			tRAM: &tinyRAM{
+				Register: []uint64{0, 0, 0},
+				Memory: []uint64{0, 0, 5},
+				Pc: 1,				
+			},
+			r1: 1,
+			r2: 2,
+			r3: 0,
+			expectedValue: 5,
+			expectedPc: 2,
+		},
+	}
+
+	for n, tc := range cases {
+		tcc := tc
+		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
+			readOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
+			assert.Equal(t, tcc.expectedValue, tcc.tRAM.Register[1])
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
+		})
+	}
+}
