@@ -251,11 +251,13 @@ func cmpgeOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 //
 
 func movOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
-
+	tRAM.Register[r1] = r2
 }
 
 func cmovOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
-
+	if tRAM.ConditionFlag {
+		tRAM.Register[r1] = r2
+	}
 }
 
 //
