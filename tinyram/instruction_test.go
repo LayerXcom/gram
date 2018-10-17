@@ -638,3 +638,185 @@ func TestCmpgeOperation(t *testing.T) {
 		})
 	}
 }
+
+func TestMovOperation(t *testing.T) {
+	cases := []struct {
+		tRAM     *tinyRAM
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64		
+	}{
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 0},				
+			},
+			r1:       0,
+			r2:       2,
+			r3:       0,			
+			expected: 2,			
+		},		
+	}
+
+	for n, tc := range cases {
+		tcc := tc
+		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
+			movOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)			
+			assert.Equal(t, tcc.expected, tcc.tRAM.Register[0])
+		})
+	}
+}
+
+func TestCmovOperation(t *testing.T) {
+	cases := []struct {
+		tRAM     *tinyRAM
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64		
+	}{
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 0},
+				ConditionFlag: false,
+			},
+			r1:       0,
+			r2:       2,
+			r3:       0,			
+			expected: 0,			
+		},
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 0},
+				ConditionFlag: true,
+			},
+			r1:       0,
+			r2:       2,
+			r3:       0,			
+			expected: 2,			
+		},		
+	}
+
+	for n, tc := range cases {
+		tcc := tc
+		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
+			cmovOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
+			if tcc.tRAM.ConditionFlag {
+				assert.Equal(t, tcc.expected, tcc.tRAM.Register[0])
+			} else {
+				assert.Equal(t, tcc.expected, tcc.tRAM.Register[0])
+			}
+		})
+	}
+}
+
+func TestJmpOperation(t *testing.T) {
+	cases := []struct {
+		tRAM     *tinyRAM
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64		
+	}{
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 0},
+				Pc: 0,
+			},
+			r1:       5,
+			r2:       0,
+			r3:       0,			
+			expected: 5,			
+		},	
+	}
+
+	for n, tc := range cases {
+		tcc := tc
+		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
+			jmpOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
+			assert.Equal(t, tcc.expected, tcc.tRAM.Pc)
+		})
+	}
+}
+
+func TestCjmpOperation(t *testing.T) {
+	cases := []struct {
+		tRAM     *tinyRAM
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64		
+	}{
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 0},
+				ConditionFlag: false,
+				Pc: 0,
+			},
+			r1:       5,
+			r2:       0,
+			r3:       0,			
+			expected: 0,			
+		},
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 0},
+				ConditionFlag: true,
+				Pc: 0,
+			},
+			r1:       5,
+			r2:       0,
+			r3:       0,			
+			expected: 5,			
+		},	
+	}
+
+	for n, tc := range cases {
+		tcc := tc
+		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
+			cjmpOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
+			assert.Equal(t, tcc.expected, tcc.tRAM.Pc)
+		})
+	}
+}
+
+func TestCnjmpOperation(t *testing.T) {
+	cases := []struct {
+		tRAM     *tinyRAM
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expected uint64		
+	}{
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 0},
+				ConditionFlag: false,
+				Pc: 0,
+			},
+			r1:       5,
+			r2:       0,
+			r3:       0,			
+			expected: 5,			
+		},
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 0},
+				ConditionFlag: true,
+				Pc: 0,
+			},
+			r1:       5,
+			r2:       0,
+			r3:       0,			
+			expected: 0,			
+		},	
+	}
+
+	for n, tc := range cases {
+		tcc := tc
+		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
+			cnjmpOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
+			assert.Equal(t, tcc.expected, tcc.tRAM.Pc)
+		})
+	}
+}

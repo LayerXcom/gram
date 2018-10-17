@@ -7,7 +7,7 @@ type tinyRAM struct {
 	ConditionFlag bool
 
 	// pc ... Program Counter
-	Pc int64
+	Pc uint64
 
 	// Register ... the length should be $NumRegister$
 	// and  each item be 64 bits
