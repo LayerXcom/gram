@@ -24,6 +24,11 @@ func TestExecution(t *testing.T) {
 			timeBound: 9,	
 			expectedFlag: false,		
 		},
+		{
+			path: "../example/testForSuccess.asm",
+			timeBound: 9,	
+			expectedFlag: false,		
+		},
 	}
 
 	for n, tc := range cases {
