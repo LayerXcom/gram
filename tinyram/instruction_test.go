@@ -48,6 +48,7 @@ func TestOrOperation(t *testing.T) {
 		r2       uint64
 		r3       uint64
 		expected uint64
+		expectedPc uint64
 	}{
 		{
 			tRAM: &tinyRAM{
@@ -58,6 +59,7 @@ func TestOrOperation(t *testing.T) {
 			r2:       2,
 			r3:       10,
 			expected: 3 | 10,
+			expectedPc: uint64(1),
 		},
 	}
 
@@ -67,6 +69,7 @@ func TestOrOperation(t *testing.T) {
 			orOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
 			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
 			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -78,6 +81,7 @@ func TestXorOperation(t *testing.T) {
 		r2       uint64
 		r3       uint64
 		expected uint64
+		expectedPc uint64
 	}{
 		{
 			tRAM: &tinyRAM{
@@ -88,6 +92,7 @@ func TestXorOperation(t *testing.T) {
 			r2:       2,
 			r3:       10,
 			expected: 3 ^ 10,
+			expectedPc: uint64(1),
 		},
 	}
 
@@ -97,6 +102,7 @@ func TestXorOperation(t *testing.T) {
 			xorOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
 			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
 			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -108,6 +114,7 @@ func TestNotOperation(t *testing.T) {
 		r2       uint64
 		r3       uint64
 		expected uint64
+		expectedPc uint64
 	}{
 		{
 			tRAM: &tinyRAM{
@@ -119,6 +126,7 @@ func TestNotOperation(t *testing.T) {
 			r3:       0,
 			// 2 ^ (2 ** 64 -1) 
 			expected: 18446744073709551613,
+			expectedPc: uint64(1),
 		},
 	}
 
@@ -128,6 +136,7 @@ func TestNotOperation(t *testing.T) {
 			notOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
 			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
 			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -139,6 +148,7 @@ func TestAddOperation(t *testing.T) {
 		r2       uint64
 		r3       uint64
 		expected uint64
+		expectedPc uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -149,6 +159,7 @@ func TestAddOperation(t *testing.T) {
 			r2:       2,
 			r3:       10,
 			expected: 3 + 10,
+			expectedPc: uint64(1),
 		},
 	}
 
@@ -158,6 +169,7 @@ func TestAddOperation(t *testing.T) {
 			addOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
 			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
 			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -169,6 +181,7 @@ func TestSubOperation(t *testing.T) {
 		r2       uint64
 		r3       uint64
 		expected uint64
+		expectedPc uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -179,6 +192,7 @@ func TestSubOperation(t *testing.T) {
 			r2:       2,
 			r3:       3,			
 			expected: 7,
+			expectedPc: uint64(1),
 		},
 	}
 
@@ -188,6 +202,7 @@ func TestSubOperation(t *testing.T) {
 			subOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
 			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
 			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -199,6 +214,7 @@ func TestMullOperation(t *testing.T) {
 		r2       uint64
 		r3       uint64
 		expected uint64
+		expectedPc uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -209,6 +225,7 @@ func TestMullOperation(t *testing.T) {
 			r2:       2,
 			r3:       10,
 			expected: 3 * 10,
+			expectedPc: uint64(1),
 		},
 	}
 
@@ -218,6 +235,7 @@ func TestMullOperation(t *testing.T) {
 			mullOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
 			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
 			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -229,6 +247,7 @@ func TestUmlhOperation(t *testing.T) {
 		r2       uint64
 		r3       uint64
 		expected uint64
+		expectedPc uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -239,6 +258,7 @@ func TestUmlhOperation(t *testing.T) {
 			r2:       2,
 			r3:       10,
 			expected: 3 * 10,
+			expectedPc: uint64(1),
 		},
 	}
 
@@ -248,6 +268,7 @@ func TestUmlhOperation(t *testing.T) {
 			umulhOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
 			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
 			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -259,6 +280,7 @@ func TestSmulhOperation(t *testing.T) {
 		r2       uint64
 		r3       uint64
 		expected uint64
+		expectedPc uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -269,6 +291,7 @@ func TestSmulhOperation(t *testing.T) {
 			r2:       2,
 			r3:       10,
 			expected: 3 * 10,
+			expectedPc: uint64(1),
 		},
 	}
 
@@ -278,6 +301,7 @@ func TestSmulhOperation(t *testing.T) {
 			smulhOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
 			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
 			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -289,6 +313,7 @@ func TestUdivOperation(t *testing.T) {
 		r2       uint64
 		r3       uint64
 		expected uint64
+		expectedPc uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -300,6 +325,7 @@ func TestUdivOperation(t *testing.T) {
 			r3:       3,
 			// 10 / 3 = 3 with a remainder 1
 			expected: 3,
+			expectedPc: uint64(1),
 		},
 	}
 
@@ -309,6 +335,7 @@ func TestUdivOperation(t *testing.T) {
 			udivOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
 			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
 			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -320,6 +347,7 @@ func TestUmodOperation(t *testing.T) {
 		r2       uint64
 		r3       uint64
 		expected uint64
+		expectedPc uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -331,6 +359,7 @@ func TestUmodOperation(t *testing.T) {
 			r3:       3,
 			// 10 / 3 = 3 with a remainder 1
 			expected: 1,
+			expectedPc: uint64(1),
 		},
 	}
 
@@ -340,6 +369,7 @@ func TestUmodOperation(t *testing.T) {
 			umodOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
 			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
 			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -352,6 +382,7 @@ func TestShlOperation(t *testing.T) {
 		r3       uint64
 		expectedValue uint64
 		expectedFlag bool
+		expectedPc uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -363,6 +394,7 @@ func TestShlOperation(t *testing.T) {
 			r3:       3,			
 			expectedValue: 80,
 			expectedFlag: false,
+			expectedPc: uint64(1),
 		},
 		{
 			tRAM: &tinyRAM{				
@@ -375,6 +407,7 @@ func TestShlOperation(t *testing.T) {
 			// 1 << 63 =
 			expectedValue: 9223372036854775808,
 			expectedFlag: true,
+			expectedPc: uint64(1),
 		},
 	}
 
@@ -384,6 +417,7 @@ func TestShlOperation(t *testing.T) {
 			shlOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
 			assert.Equal(t, tcc.expectedValue, tcc.tRAM.Register[tcc.r1])
 			assert.Equal(t, tcc.expectedFlag, tcc.tRAM.ConditionFlag)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -396,6 +430,7 @@ func TestShrOperation(t *testing.T) {
 		r3       uint64
 		expectedValue uint64
 		expectedFlag bool
+		expectedPc uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -407,6 +442,7 @@ func TestShrOperation(t *testing.T) {
 			r3:       3,			
 			expectedValue: 12,
 			expectedFlag: false,
+			expectedPc: uint64(1),
 		},
 		{
 			tRAM: &tinyRAM{				
@@ -419,6 +455,7 @@ func TestShrOperation(t *testing.T) {
 			// 4 >> 2 =
 			expectedValue: 1,
 			expectedFlag: true,
+			expectedPc: uint64(1),
 		},
 	}
 
@@ -428,6 +465,7 @@ func TestShrOperation(t *testing.T) {
 			shrOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
 			assert.Equal(t, tcc.expectedValue, tcc.tRAM.Register[tcc.r1])
 			assert.Equal(t, tcc.expectedFlag, tcc.tRAM.ConditionFlag)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -440,6 +478,7 @@ func TestCmpeOperation(t *testing.T) {
 		r3       uint64
 		expectedValue uint64
 		expectedFlag bool
+		expectedPc uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -451,6 +490,7 @@ func TestCmpeOperation(t *testing.T) {
 			r3:       0,			
 			expectedValue: 0,
 			expectedFlag: false,
+			expectedPc: uint64(1),
 		},
 		{
 			tRAM: &tinyRAM{				
@@ -462,6 +502,7 @@ func TestCmpeOperation(t *testing.T) {
 			r3:       0,			
 			expectedValue: 0,
 			expectedFlag: true,
+			expectedPc: uint64(1),
 		},
 	}
 
@@ -471,6 +512,7 @@ func TestCmpeOperation(t *testing.T) {
 			cmpeOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
 			assert.Equal(t, tcc.expectedValue, tcc.tRAM.Register[tcc.r1])
 			assert.Equal(t, tcc.expectedFlag, tcc.tRAM.ConditionFlag)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -483,6 +525,7 @@ func TestCmpaOperation(t *testing.T) {
 		r3       uint64
 		expectedValue uint64
 		expectedFlag bool
+		expectedPc uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -494,6 +537,7 @@ func TestCmpaOperation(t *testing.T) {
 			r3:       0,			
 			expectedValue: 0,
 			expectedFlag: false,
+			expectedPc: uint64(1),
 		},
 		{
 			tRAM: &tinyRAM{				
@@ -505,6 +549,7 @@ func TestCmpaOperation(t *testing.T) {
 			r3:       0,			
 			expectedValue: 0,
 			expectedFlag: true,
+			expectedPc: uint64(1),
 		},
 	}
 
@@ -513,6 +558,7 @@ func TestCmpaOperation(t *testing.T) {
 		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
 			cmpaOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)			
 			assert.Equal(t, tcc.expectedFlag, tcc.tRAM.ConditionFlag)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -525,6 +571,7 @@ func TestCmpaeOperation(t *testing.T) {
 		r3       uint64
 		expectedValue uint64
 		expectedFlag bool
+		expectedPc uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -536,6 +583,7 @@ func TestCmpaeOperation(t *testing.T) {
 			r3:       0,			
 			expectedValue: 0,
 			expectedFlag: false,
+			expectedPc: uint64(1),
 		},
 		{
 			tRAM: &tinyRAM{				
@@ -547,6 +595,7 @@ func TestCmpaeOperation(t *testing.T) {
 			r3:       0,			
 			expectedValue: 0,
 			expectedFlag: true,
+			expectedPc: uint64(1),
 		},
 	}
 
@@ -555,6 +604,7 @@ func TestCmpaeOperation(t *testing.T) {
 		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
 			cmpaeOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)			
 			assert.Equal(t, tcc.expectedFlag, tcc.tRAM.ConditionFlag)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -567,6 +617,7 @@ func TestCmpgOperation(t *testing.T) {
 		r3       uint64
 		expectedValue uint64
 		expectedFlag bool
+		expectedPc uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -578,6 +629,7 @@ func TestCmpgOperation(t *testing.T) {
 			r3:       0,			
 			expectedValue: 0,
 			expectedFlag: false,
+			expectedPc: uint64(1),
 		},
 		{
 			tRAM: &tinyRAM{				
@@ -589,6 +641,7 @@ func TestCmpgOperation(t *testing.T) {
 			r3:       0,			
 			expectedValue: 0,
 			expectedFlag: true,
+			expectedPc: uint64(1),
 		},
 	}
 
@@ -597,6 +650,7 @@ func TestCmpgOperation(t *testing.T) {
 		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
 			cmpgOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)			
 			assert.Equal(t, tcc.expectedFlag, tcc.tRAM.ConditionFlag)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -609,6 +663,7 @@ func TestCmpgeOperation(t *testing.T) {
 		r3       uint64
 		expectedValue uint64
 		expectedFlag bool
+		expectedPc uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -620,6 +675,7 @@ func TestCmpgeOperation(t *testing.T) {
 			r3:       0,			
 			expectedValue: 0,
 			expectedFlag: false,
+			expectedPc: uint64(1),
 		},
 		{
 			tRAM: &tinyRAM{				
@@ -631,6 +687,7 @@ func TestCmpgeOperation(t *testing.T) {
 			r3:       0,			
 			expectedValue: 0,
 			expectedFlag: true,
+			expectedPc: uint64(1),
 		},
 	}
 
@@ -639,6 +696,7 @@ func TestCmpgeOperation(t *testing.T) {
 		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
 			cmpgeOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)			
 			assert.Equal(t, tcc.expectedFlag, tcc.tRAM.ConditionFlag)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -649,7 +707,8 @@ func TestMovOperation(t *testing.T) {
 		r1       uint64
 		r2       uint64
 		r3       uint64
-		expected uint64		
+		expected uint64
+		expectedPc uint64
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -658,7 +717,8 @@ func TestMovOperation(t *testing.T) {
 			r1:       0,
 			r2:       2,
 			r3:       0,			
-			expected: 2,			
+			expected: 2,
+			expectedPc: uint64(1),
 		},		
 	}
 
@@ -667,6 +727,7 @@ func TestMovOperation(t *testing.T) {
 		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
 			movOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)			
 			assert.Equal(t, tcc.expected, tcc.tRAM.Register[0])
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -677,7 +738,8 @@ func TestCmovOperation(t *testing.T) {
 		r1       uint64
 		r2       uint64
 		r3       uint64
-		expected uint64		
+		expected uint64	
+		expectedPc uint64			
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -687,7 +749,8 @@ func TestCmovOperation(t *testing.T) {
 			r1:       0,
 			r2:       2,
 			r3:       0,			
-			expected: 0,			
+			expected: 0,
+			expectedPc: uint64(1),		
 		},
 		{
 			tRAM: &tinyRAM{				
@@ -697,7 +760,8 @@ func TestCmovOperation(t *testing.T) {
 			r1:       0,
 			r2:       2,
 			r3:       0,			
-			expected: 2,			
+			expected: 2,
+			expectedPc: uint64(1),			
 		},		
 	}
 
@@ -710,6 +774,7 @@ func TestCmovOperation(t *testing.T) {
 			} else {
 				assert.Equal(t, tcc.expected, tcc.tRAM.Register[0])
 			}
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -720,7 +785,7 @@ func TestJmpOperation(t *testing.T) {
 		r1       uint64
 		r2       uint64
 		r3       uint64
-		expected uint64		
+		expectedPc uint64		
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -730,7 +795,7 @@ func TestJmpOperation(t *testing.T) {
 			r1:       5,
 			r2:       0,
 			r3:       0,			
-			expected: 5,			
+			expectedPc: 5,			
 		},	
 	}
 
@@ -738,7 +803,7 @@ func TestJmpOperation(t *testing.T) {
 		tcc := tc
 		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
 			jmpOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
-			assert.Equal(t, tcc.expected, tcc.tRAM.Pc)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -749,7 +814,7 @@ func TestCjmpOperation(t *testing.T) {
 		r1       uint64
 		r2       uint64
 		r3       uint64
-		expected uint64		
+		expectedPc uint64		
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -760,7 +825,7 @@ func TestCjmpOperation(t *testing.T) {
 			r1:       5,
 			r2:       0,
 			r3:       0,			
-			expected: 0,			
+			expectedPc: 1,			
 		},
 		{
 			tRAM: &tinyRAM{				
@@ -771,7 +836,7 @@ func TestCjmpOperation(t *testing.T) {
 			r1:       5,
 			r2:       0,
 			r3:       0,			
-			expected: 5,			
+			expectedPc: 5,			
 		},	
 	}
 
@@ -779,7 +844,7 @@ func TestCjmpOperation(t *testing.T) {
 		tcc := tc
 		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
 			cjmpOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
-			assert.Equal(t, tcc.expected, tcc.tRAM.Pc)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
@@ -790,7 +855,7 @@ func TestCnjmpOperation(t *testing.T) {
 		r1       uint64
 		r2       uint64
 		r3       uint64
-		expected uint64		
+		expectedPc uint64		
 	}{
 		{
 			tRAM: &tinyRAM{				
@@ -801,7 +866,7 @@ func TestCnjmpOperation(t *testing.T) {
 			r1:       5,
 			r2:       0,
 			r3:       0,			
-			expected: 5,			
+			expectedPc: 5,			
 		},
 		{
 			tRAM: &tinyRAM{				
@@ -812,7 +877,7 @@ func TestCnjmpOperation(t *testing.T) {
 			r1:       5,
 			r2:       0,
 			r3:       0,			
-			expected: 0,			
+			expectedPc: 1,			
 		},	
 	}
 
@@ -820,7 +885,7 @@ func TestCnjmpOperation(t *testing.T) {
 		tcc := tc
 		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
 			cnjmpOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
-			assert.Equal(t, tcc.expected, tcc.tRAM.Pc)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }
