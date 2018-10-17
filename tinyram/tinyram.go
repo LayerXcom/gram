@@ -42,10 +42,9 @@ type tinyRAM struct {
 }
 
 // execute current instruction pointed by the tinyRAM
-func (r *tinyRAM) ExecCurrentInstruction() {	
-	// fmt.Println(r.Pc)
-	inst := r.Prog[r.Pc]
-	// fmt.Println(inst)
+func (r *tinyRAM) ExecCurrentInstruction() {			
+	inst := r.Prog[r.Pc]		
+
 	op, ok := instructionToOperation[inst.inst]
 	if !ok {
 		panic(fmt.Sprintf("operation not defined for %s", inst.inst))
