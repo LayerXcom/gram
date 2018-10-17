@@ -710,7 +710,7 @@ func TestCmovOperation(t *testing.T) {
 	}
 }
 
-func TestjmpOperation(t *testing.T) {
+func TestJmpOperation(t *testing.T) {
 	cases := []struct {
 		tRAM     *tinyRAM
 		r1       uint64
