@@ -1066,3 +1066,34 @@ func TestReadOperation(t *testing.T) {
 	}
 }
 
+func TestAnswerOperation(t *testing.T) {
+	cases := []struct {
+		tRAM *tinyRAM
+		r1 uint64
+		r2 uint64
+		r3 uint64		
+		expectedPc uint64
+		expectedAccept bool
+	}{
+		{
+			tRAM: &tinyRAM{								
+				Pc: 1,
+				Accept: false,			
+			},
+			r1: 1,
+			r2: 2,
+			r3: 0,			
+			expectedPc: 1,
+			expectedAccept: true,
+		},
+	}
+
+	for n, tc := range cases {
+		tcc := tc
+		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
+			answerOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)			
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
+			assert.Equal(t, tcc.expectedAccept, tcc.tRAM.Accept)
+		})
+	}
+}

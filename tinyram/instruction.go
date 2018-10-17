@@ -36,7 +36,7 @@ const (
 	ANSWER instruction = "ANSWER"
 )
 
-var instructionToOperation = map[instruction]func(tRam *tinyRAM, r1, r2, r3 uint64){
+var instructionToOperation = map[instruction]func(tRam *tinyRAM, r1, r2, r3 uint64) {
 	AND:    andOperation,
 	OR:     orOperation,
 	XOR:    xorOperation,
@@ -355,5 +355,5 @@ func readOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 // The program accepted if the return value is 0
 func answerOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
-	// return r1
+	 tRAM.Accept = true
 }

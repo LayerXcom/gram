@@ -61,6 +61,9 @@ func (r *tinyRAM) Exec(t int) bool {
 		}
 
 		r.ExecCurrentInstruction()
+		if r.Accept {
+			break
+		}
 	}
 	return r.Accept
 }
