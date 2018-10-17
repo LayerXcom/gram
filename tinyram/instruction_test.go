@@ -14,16 +14,19 @@ func TestAndOperation(t *testing.T) {
 		r2       uint64
 		r3       uint64
 		expected uint64
+		expectedPc uint64
 	}{
 		{
 			tRAM: &tinyRAM{
 				Register:      []uint64{0, 0, 3},
 				ConditionFlag: true,
+				Pc: 0,
 			},
 			r1:       uint64(0),
 			r2:       uint64(2),
 			r3:       uint64(10),
 			expected: uint64(3 & 10),
+			expectedPc: uint64(1),
 		},
 	}
 
@@ -33,6 +36,7 @@ func TestAndOperation(t *testing.T) {
 			andOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
 			assert.Equal(t, tcc.expected, tcc.tRAM.Register[tcc.r1])
 			assert.Equal(t, false, tcc.tRAM.ConditionFlag)
+			assert.Equal(t, tcc.expectedPc, tcc.tRAM.Pc)
 		})
 	}
 }

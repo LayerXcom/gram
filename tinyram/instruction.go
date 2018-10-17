@@ -78,12 +78,13 @@ type instructionToken struct {
 //
 
 func andOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
-	tRAM.Register[r1] = tRAM.Register[r2] & r3
+	tRAM.Register[r1] = tRAM.Register[r2] & r3	
 	if tRAM.Register[r1] == 0 {
 		tRAM.ConditionFlag = true
 	} else {
 		tRAM.ConditionFlag = false
 	}
+	tRAM.Pc++
 }
 
 func orOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
@@ -93,6 +94,7 @@ func orOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	} else {
 		tRAM.ConditionFlag = false
 	}
+	tRAM.Pc++
 }
 
 func xorOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
@@ -102,6 +104,7 @@ func xorOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	} else {
 		tRAM.ConditionFlag = false
 	}
+	tRAM.Pc++
 }
 
 func notOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
@@ -111,6 +114,7 @@ func notOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	} else {
 		tRAM.ConditionFlag = false
 	}
+	tRAM.Pc++
 }
 
 //
@@ -124,6 +128,7 @@ func addOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	} else {
 		tRAM.ConditionFlag = false
 	}
+	tRAM.Pc++
 }
 
 func subOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {	
@@ -133,6 +138,7 @@ func subOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	} else {		
 		tRAM.ConditionFlag = false
 	}
+	tRAM.Pc++
 }
 
 func mullOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
@@ -142,6 +148,7 @@ func mullOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	} else {
 		tRAM.ConditionFlag = false
 	}
+	tRAM.Pc++
 }
 
 func umulhOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
@@ -151,6 +158,7 @@ func umulhOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	} else {
 		tRAM.ConditionFlag = false
 	}
+	tRAM.Pc++
 }
 
 func smulhOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
@@ -160,6 +168,7 @@ func smulhOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	} else {
 		tRAM.ConditionFlag = false
 	}
+	tRAM.Pc++
 }
 
 func udivOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
@@ -169,6 +178,7 @@ func udivOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 		tRAM.Register[r1] = tRAM.Register[r2] / r3
 		tRAM.ConditionFlag = false
 	}
+	tRAM.Pc++
 }
 
 func umodOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
@@ -178,6 +188,7 @@ func umodOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 		tRAM.Register[r1] = tRAM.Register[r2] % r3
 		tRAM.ConditionFlag = false
 	}
+	tRAM.Pc++
 }
 
 //
@@ -191,6 +202,7 @@ func shlOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	} else {
 		tRAM.ConditionFlag = false
 	}
+	tRAM.Pc++
 }
 
 func shrOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
@@ -200,6 +212,7 @@ func shrOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	} else {
 		tRAM.ConditionFlag = false
 	}
+	tRAM.Pc++
 }
 
 //
@@ -212,6 +225,7 @@ func cmpeOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	} else {
 		tRAM.ConditionFlag = false
 	}
+	tRAM.Pc++
 }
 
 func cmpaOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
@@ -220,6 +234,7 @@ func cmpaOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	} else {
 		tRAM.ConditionFlag = false
 	}
+	tRAM.Pc++
 }
 
 func cmpaeOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
@@ -228,6 +243,7 @@ func cmpaeOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	} else {
 		tRAM.ConditionFlag = false
 	}
+	tRAM.Pc++
 }
 
 func cmpgOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
@@ -236,6 +252,7 @@ func cmpgOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	} else {
 		tRAM.ConditionFlag = false
 	}
+	tRAM.Pc++
 }
 
 func cmpgeOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
@@ -244,6 +261,7 @@ func cmpgeOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	} else {
 		tRAM.ConditionFlag = false
 	}
+	tRAM.Pc++
 }
 
 //
@@ -252,12 +270,14 @@ func cmpgeOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 func movOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	tRAM.Register[r1] = r2
+	tRAM.Pc++
 }
 
 func cmovOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	if tRAM.ConditionFlag {
 		tRAM.Register[r1] = r2
 	}
+	tRAM.Pc++
 }
 
 //
@@ -271,6 +291,8 @@ func jmpOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 func cjmpOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	if tRAM.ConditionFlag {
 		tRAM.Pc = r1
+	} else {
+		tRAM.Pc++
 	}
 
 }
@@ -278,6 +300,8 @@ func cjmpOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 func cnjmpOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	if !tRAM.ConditionFlag {
 		tRAM.Pc = r1
+	} else {
+		tRAM.Pc++
 	}
 }
 
