@@ -1,6 +1,8 @@
 package tinyram
 
-import "fmt"
+import (	
+	"fmt"
+)
 
 type tinyRAM struct {	
 	NumRegister   uint64
@@ -13,7 +15,7 @@ type tinyRAM struct {
 	// and  each item be 64 bits
 	Register []uint64
 
-	// Memory ... the length should be 2^64
+	// Memory ... the length should be 64
 	// and each word should be 64 bits
 	Memory []uint64
 
@@ -40,8 +42,9 @@ type tinyRAM struct {
 }
 
 // execute current instruction pointed by the tinyRAM
-func (r *tinyRAM) ExecCurrentInstruction() {
-	inst := r.Prog[r.Pc]
+func (r *tinyRAM) ExecCurrentInstruction() {			
+	inst := r.Prog[r.Pc]		
+
 	op, ok := instructionToOperation[inst.inst]
 	if !ok {
 		panic(fmt.Sprintf("operation not defined for %s", inst.inst))
@@ -53,12 +56,12 @@ func (r *tinyRAM) ExecCurrentInstruction() {
 // execute whole program and return whether the calculation accepted of NOT.
 // `t` parameter represents $T$, time bound, in the paper.
 func (r *tinyRAM) Exec(t int) bool {
-	for i := 0; i < t; t++ {
+	for i := 0; i < t; i++ {
 
 		// prevent out of range panic
 		if len(r.Prog) <= i {
 			break
-		}
+		}			
 
 		r.ExecCurrentInstruction()
 		if r.Accept {
@@ -70,7 +73,7 @@ func (r *tinyRAM) Exec(t int) bool {
 
 // get the pointer of tinyRAMInstance with a given ASM program.
 func GetTinyRAMInstance(asmPath string, numRegister uint64, primary, auxiliary []uint64) (*tinyRAM, error) {
-	ps, err := parseRawAsm(asmPath)
+	ps, err := parseRawAsm(asmPath)	
 	if err != nil {
 		return nil, err
 	}
@@ -80,6 +83,7 @@ func GetTinyRAMInstance(asmPath string, numRegister uint64, primary, auxiliary [
 		PrimaryInput:   primary,
 		AuxiliaryInput: auxiliary,
 		Register:       make([]uint64, numRegister),
+		Memory:			make([]uint64, 64),
 	}
 	return &tr, nil
 }

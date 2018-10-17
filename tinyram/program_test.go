@@ -12,7 +12,7 @@ func TestParseRawAsm(t *testing.T) {
 		path     string
 		expected program
 	}{{
-		path: "../example/test.asm",
+		path: "../example/testForParser.asm",
 		expected: program{
 			instructionToken{instruction("MOV"), 1, 2, 100},
 			instructionToken{instruction("ADD"), 100, 100, 100},
