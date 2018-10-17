@@ -207,23 +207,43 @@ func shrOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 //
 
 func cmpeOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
-
+	if r1 == r2 {
+		tRAM.ConditionFlag = true
+	} else {
+		tRAM.ConditionFlag = false
+	}
 }
 
 func cmpaOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
-
+	if r1 > r2 {
+		tRAM.ConditionFlag = true
+	} else {
+		tRAM.ConditionFlag = false
+	}
 }
 
 func cmpaeOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
-
+	if r1 >= r2 {
+		tRAM.ConditionFlag = true
+	} else {
+		tRAM.ConditionFlag = false
+	}
 }
 
 func cmpgOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
-
+	if r1 > r2 {
+		tRAM.ConditionFlag = true
+	} else {
+		tRAM.ConditionFlag = false
+	}
 }
 
 func cmpgeOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
-
+	if r1 >= r2 {
+		tRAM.ConditionFlag = true
+	} else {
+		tRAM.ConditionFlag = false
+	}
 }
 
 //
