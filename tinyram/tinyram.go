@@ -1,7 +1,6 @@
 package tinyram
 
-import (
-	"math"
+import (	
 	"fmt"
 )
 
@@ -16,7 +15,7 @@ type tinyRAM struct {
 	// and  each item be 64 bits
 	Register []uint64
 
-	// Memory ... the length should be 2^64
+	// Memory ... the length should be 2^63
 	// and each word should be 64 bits
 	Memory []uint64
 
@@ -83,7 +82,7 @@ func GetTinyRAMInstance(asmPath string, numRegister uint64, primary, auxiliary [
 		PrimaryInput:   primary,
 		AuxiliaryInput: auxiliary,
 		Register:       make([]uint64, numRegister),
-		Memory:			make([]uint64, uint64(math.Pow(2, 64))),
+		Memory:			make([]uint64, 64),
 	}
 	return &tr, nil
 }
