@@ -195,7 +195,7 @@ func shlOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 func shrOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 	tRAM.Register[r1] = tRAM.Register[r2] >> r3
-	if (tRAM.Register[r1] >> 63) & 1 == 1 {
+	if tRAM.Register[r1] & 1 == 1 {
 		tRAM.ConditionFlag = true
 	} else {
 		tRAM.ConditionFlag = false
