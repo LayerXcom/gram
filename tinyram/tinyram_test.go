@@ -7,7 +7,7 @@ import (
 	"gotest.tools/assert"
 )
 
-// execute the program noted in https://www.scipr-lab.org/doc/TinyRAM-spec-0.991.pdf
+// execute the test program
 func TestExecution(t *testing.T) {
 	cases := []struct {
 		path string
@@ -16,12 +16,12 @@ func TestExecution(t *testing.T) {
 	}{
 		{
 			path: "../example/testForSuccess.asm",
-			timeBound: 7,
+			timeBound: 10,
 			expectedFlag: true,
 		},
 		{
 			path: "../example/testForFail.asm",
-			timeBound: 6,	
+			timeBound: 9,	
 			expectedFlag: false,		
 		},
 	}
