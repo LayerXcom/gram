@@ -12,12 +12,17 @@ func TestExecution(t *testing.T) {
 	cases := []struct {
 		path string
 		timeBound int
+		expectedFlag bool
 	}{
 		{
-			path: "../example/testForSuccess.asm",			
+			path: "../example/testForSuccess.asm",
+			timeBound: 9,
+			expectedFlag: true,
 		},
 		{
-			path: "../example/testForFail.asm",			
+			path: "../example/testForFail.asm",
+			timeBound: 8,	
+			expectedFlag: false,		
 		},
 	}
 
@@ -29,11 +34,8 @@ func TestExecution(t *testing.T) {
 				t.Fatalf("get the tinyRAM instnce failed")
 			}
 
-			if tRAM.Exec(9) {
-				assert.Equal(t, true, tRAM.Accept)
-			} else {
-				assert.Equal(t, false, tRAM.Accept)
-			}			
+			tRAM.Exec(tcc.timeBound)
+			assert.Equal(t, tcc.expectedFlag, tRAM.Accept)						
 		})
 	}
 }
