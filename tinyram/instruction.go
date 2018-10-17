@@ -185,12 +185,26 @@ func umodOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 //
 
 func shlOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
-
+	tRAM.Register[r1] = tRAM.Register[r2] << r3
+	if (tRAM.Register[r1] >> 63) & 1 == 1 {
+		tRAM.ConditionFlag = true
+	} else {
+		tRAM.ConditionFlag = false
+	}
 }
 
 func shrOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
-
+	tRAM.Register[r1] = tRAM.Register[r2] >> r3
+	if tRAM.Register[r1] & 1 == 1 {
+		tRAM.ConditionFlag = true
+	} else {
+		tRAM.ConditionFlag = false
+	}
 }
+
+//
+// Compare operations
+//
 
 func cmpeOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
@@ -212,6 +226,10 @@ func cmpgeOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
 
+//
+// Move operations
+//
+
 func movOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
@@ -219,6 +237,10 @@ func movOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 func cmovOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
+
+//
+// Jump operations
+//
 
 func jmpOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
@@ -232,6 +254,10 @@ func cnjmpOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
 
+//
+// Memory operations
+//
+
 func storeOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
@@ -240,9 +266,17 @@ func loadOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
 
+//
+// Input operations
+//
+
 func readOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 }
+
+//
+// Answer operations
+//
 
 func answerOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 

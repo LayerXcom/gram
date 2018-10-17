@@ -339,3 +339,91 @@ func TestUmodOperation(t *testing.T) {
 		})
 	}
 }
+
+func TestShlOperation(t *testing.T) {
+	cases := []struct {
+		tRAM     *tinyRAM
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expectedValue uint64
+		expectedFlag bool
+	}{
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 10},
+				ConditionFlag: true,
+			},
+			r1:       0,
+			r2:       2,
+			r3:       3,			
+			expectedValue: 80,
+			expectedFlag: false,
+		},
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 1},
+				ConditionFlag: false,
+			},
+			r1:       0,
+			r2:       2,
+			r3:       63,			
+			// 1 << 63 =
+			expectedValue: 9223372036854775808,
+			expectedFlag: true,
+		},
+	}
+
+	for n, tc := range cases {
+		tcc := tc
+		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
+			shlOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
+			assert.Equal(t, tcc.expectedValue, tcc.tRAM.Register[tcc.r1])
+			assert.Equal(t, tcc.expectedFlag, tcc.tRAM.ConditionFlag)
+		})
+	}
+}
+
+func TestShrOperation(t *testing.T) {
+	cases := []struct {
+		tRAM     *tinyRAM
+		r1       uint64
+		r2       uint64
+		r3       uint64
+		expectedValue uint64
+		expectedFlag bool
+	}{
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 100},
+				ConditionFlag: true,
+			},
+			r1:       0,
+			r2:       2,
+			r3:       3,			
+			expectedValue: 12,
+			expectedFlag: false,
+		},
+		{
+			tRAM: &tinyRAM{				
+				Register:      []uint64{0, 0, 4},
+				ConditionFlag: false,
+			},
+			r1:       0,
+			r2:       2,
+			r3:       2,			
+			// 4 >> 2 =
+			expectedValue: 1,
+			expectedFlag: true,
+		},
+	}
+
+	for n, tc := range cases {
+		tcc := tc
+		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {
+			shrOperation(tcc.tRAM, tcc.r1, tcc.r2, tcc.r3)
+			assert.Equal(t, tcc.expectedValue, tcc.tRAM.Register[tcc.r1])
+			assert.Equal(t, tcc.expectedFlag, tcc.tRAM.ConditionFlag)
+		})
+	}
+}
