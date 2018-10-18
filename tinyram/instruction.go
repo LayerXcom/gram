@@ -355,5 +355,7 @@ func readOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
 
 // The program accepted if the return value is 0
 func answerOperation(tRAM *tinyRAM, r1, r2, r3 uint64) {
-	 tRAM.Accept = true
+	if tRAM.PrimaryInput[tRAM.PrimaryInputCount] == tRAM.Register[r1] {
+		tRAM.Accept = true
+	} 
 }
