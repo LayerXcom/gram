@@ -7,13 +7,14 @@ _gram_ is a package for simulating TinyRAM (http://www.scipr-lab.org/specs.html)
 
 ```bash
 go get github.com/LayerXcom/gram
+dep ensure
 cd $GOPATH/src/github.com/LayerXcom/gram
 go build .
 ```
 
 ## usage
 ```bash
-./gram <path/to/tinyram.asm>
+./gram -path example/testForSuccess.asm -pi "" -r 100 -t 10 -pi "2" -ai "2"
 ```
 
 ## References
