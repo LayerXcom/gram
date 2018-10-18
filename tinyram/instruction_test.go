@@ -1078,13 +1078,30 @@ func TestAnswerOperation(t *testing.T) {
 		{
 			tRAM: &tinyRAM{								
 				Pc: 1,
-				Accept: false,			
+				Accept: false,
+				Register: []uint64{0, 4, 1},
+				PrimaryInput: []uint64{2, 3, 4},
+				PrimaryInputCount: 2,	
 			},
 			r1: 1,
 			r2: 2,
 			r3: 0,			
 			expectedPc: 1,
 			expectedAccept: true,
+		},
+		{
+			tRAM: &tinyRAM{								
+				Pc: 1,
+				Accept: false,
+				Register: []uint64{0, 4, 1},
+				PrimaryInput: []uint64{2, 3, 4},
+				PrimaryInputCount: 1,	
+			},
+			r1: 1,
+			r2: 2,
+			r3: 0,			
+			expectedPc: 1,
+			expectedAccept: false,
 		},
 	}
 

@@ -16,17 +16,17 @@ func TestExecution(t *testing.T) {
 	}{
 		{
 			path: "../example/testForSuccess.asm",
-			timeBound: 10,
+			timeBound: 11,
 			expectedFlag: true,
 		},
 		{
 			path: "../example/testForFail.asm",
-			timeBound: 9,	
+			timeBound: 10,	
 			expectedFlag: false,		
 		},
 		{
 			path: "../example/testForSuccess.asm",
-			timeBound: 9,	
+			timeBound: 10,	
 			expectedFlag: false,		
 		},
 	}
@@ -34,7 +34,7 @@ func TestExecution(t *testing.T) {
 	for n, tc := range cases {
 		tcc := tc
 		t.Run(fmt.Sprintf("%d-th unit test", n), func(t *testing.T) {			
-			tRAM, err := GetTinyRAMInstance(tcc.path, 64, []uint64{2}, []uint64{2})
+			tRAM, err := GetTinyRAMInstance(tcc.path, 64, []uint64{2, 5}, []uint64{2})
 			if err != nil {
 				t.Fatalf("get the tinyRAM instnce failed")
 			}
