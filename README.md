@@ -14,7 +14,7 @@ go build .
 
 ## usage
 ```bash
-./gram -path example/testForSuccess.asm -pi "" -r 100 -t 10 -pi "2" -ai "2"
+./gram -path example/testForSuccess.asm -r 100 -t 10 -pi "2" -ai "2"
 ```
 
 ## References
