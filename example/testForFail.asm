@@ -7,3 +7,4 @@ CMPA r0 3
 XOR r1 r2 5
 STORE 1 r0
 LOAD r2 0
+MOV r3 5
